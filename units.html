@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>CSS Units</title>
+		<style>
+			div {
+				margin-bottom: 10px;
+				background-color: blue;
+				height: 20px;
+			}
+
+			#cm {
+				width: 10cm;
+			}
+
+			#mm {
+				width: 100mm;
+			}
+
+			#in {
+				width: 2in;
+			}
+
+			#pt {
+				width: 144pt;
+				/* 1 pt = 1/72 of inch so should be the same as 1in */
+			}
+
+			#pc {
+				width: 12pc;
+				/* 1 pc = 12pt so 12pc = 144pt then since 1pt = 1/72 inch = 2inches */
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>CSS Absolute Units</h1>
+		<div id="cm">cm</div>
+		<div id="mm">mm</div>
+		<div id="in">in</div>
+		<div id="pt">pt</div>
+		<div id="pc">pc</div>
+		<div id="px">px</div>
+
+		<h2>CSS Relative Units</h2>
+
+		<div>em relative to the font-size of the element 2em = 2 times current font?</div>
+		<div>ex relative to the x-height of the current font</div>
+		<div>ch (relative to the width of the 0 in the current font)</div>
+		<div>rem relative to the font-size of the document root</div>
+		<div>1% = 1vw unit (viewport width)</div>
+		<div>1% = 1vh unit (viewport height)</div>
+		<div>vmin</div>
+		<div>vmax</div>
+
+		Q unit = 0.25mm a quarter of a millimeter px to em conversion? Aspect ratios is supported?
+		<pre>
+            @media screen and (min-aspect-ratio: 16/10) {
+            /* something for wide screens */
+            }
+        </pre>
+	</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>CSS Variables</title>
+		<style>
+			:root {
+				--primary-color: #ff0000;
+				--secondary-color: #0000ff;
+				--background-color: #ffffff;
+			}
+
+			* {
+				color: var(--primary-color);
+				background-color: var(--background-color);
+			}
+
+			em {
+				color: var(--secondary-color);
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>CSS Variables</h1>
+		<p>This is a test this is <em>just</em> a test</p>
+		<p>I really <em>like</em> to make demos. Do you?</p>
+
+		<form>
+			<label>Primary Color</label>
+			<input type="color" id="primaryColorPicker" />
+			<br />
+			<label>Secondary Color</label>
+			<input type="color" id="secondaryColorPicker" />
+			<br />
+			<label>Background Color</label>
+			<input type="color" id="backgroundColorPicker" />
+			<br />
+			<input type="button" value="Set" id="setColorBtn" />
+		</form>
+		<script>
+			let find = selector => document.querySelector(selector);
+
+			let getCSSvar = varname =>
+				getComputedStyle(document.documentElement)
+					.getPropertyValue(varname)
+					.trim();
+
+			let setCSSvar = (varname, value) => document.documentElement.style.setProperty(varname, value);
+
+			window.addEventListener('DOMContentLoaded', function() {
+				let primaryColorPicker = find('#primaryColorPicker');
+				let secondaryColorPicker = find('#secondaryColorPicker');
+				let backgroundColorPicker = find('#backgroundColorPicker');
+
+				// set initial values
+				primaryColorPicker.value = getCSSvar('--primary-color');
+				secondaryColorPicker.value = getCSSvar('--secondary-color');
+				backgroundColorPicker.value = getCSSvar('--background-color');
+
+				//backgroundColorPicker.value = '#ff0000';
+				find('#setColorBtn').addEventListener('click', function() {
+					setCSSvar('--primary-color', primaryColorPicker.value);
+					setCSSvar('--secondary-color', secondaryColorPicker.value);
+					setCSSvar('--background-color', backgroundColorPicker.value);
+				});
+			});
+		</script>
+	</body>
+</html>
