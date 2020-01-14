@@ -28,6 +28,11 @@ td { padding:10px; border:1px solid grey; vertical-align:top; }
 .notes li small { margin-left:4px; font-size:.8125rem; }
 
 
+/* Wrap
+--------------------------- */
+.wrap + .wrap { margin-top:2rem; }
+
+
 /* BOX
 --------------------------- */
 .box { background:#b2b2b2; }
