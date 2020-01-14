@@ -6,6 +6,7 @@ hr { margin:2rem 0; }
 table { margin:2rem 0; width:100%; border-collapse:collapse; }
 th { padding:0 0 .3125rem .625rem; font-size:.875rem; text-align:left; }
 td { padding:10px; border:1px solid grey; vertical-align:top; }
+.code-highlight { font-weight:600; color:teal; }
 .spacer { margin:0; background:lightgray; }
 .table-1of4 td { width:25%; }
 

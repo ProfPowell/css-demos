@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>09: Box Model</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="shared/shared.css">
+</head>
+
+<body>
+
+  <style>
+    h3 { font-size:1.125rem; }
+    .wrap { border:1px solid indianred; background:lightgrey; }
+    .box { padding:10px; border:1px solid red; }
+  </style>
+
+  
+  <h1>09 - Box Model</h1>
+
+  <p>
+    The CSS Box Model dictates how all of the parts of a box add together to determine its width and height. 
+    If you want your box to be 100 pixels wide, how should it be interpreted if you add margin, padding, and borders? 
+    Should the edge-to-edge of the box never exceed 100px wide, or should the content area (content box) be 100px, 
+    and any additional margin, padding, and borders would be added outside of it?
+  </p>
+
+  <p>
+    Historically, both of these ways to interpret a box were used in major browsers, which caused problems for developers 
+    who wanted pixel-perfect performance across browsers, or who ran into issues of elements/content breaking down to the 
+    next line in some browsers, because their width was too large for the available horizontal space.
+  </p>
+
+  <p>Luckily, all 4 modern western browsers (Chrome, Firefox, Safari, Edge) use the same model by default.</p>
+
+  <p>The <strong>2</strong> models are the <em>Standard</em> and <em>alternative</em> models</p>
+
+  <hr>
+
+  <h2>Standard Model</h2>
+
+  <p>
+    The standard model dictates that the <em>content area</em> is the set fixed-width value, and margin, padding, and borders 
+    are added <em>in addition</em>, so the total width may exceed the fixed-width value
+  </p>
+
+  <pre>
+.wrap { width:400px; height:200px; background:lightgrey; }
+.el { width:400px; height:100px; background:indianred; border:10px solid blue; }
+  </pre>
+
+  <style>
+    .wrap { width:400px; height:200px; background:lightgrey; }
+    .el { width:400px; height:100px; background:indianred; border:10px solid blue; }
+    .alt { box-sizing:border-box; }
+  </style>
+
+  <div class="wrap">
+    <div class="el"></div>
+  </div>
+
+  <hr>
+
+  <h2>Alternative Model</h2>
+
+  <p>
+    The alternative model dictates that the <em>total box area</em> is the set fixed-width value, where margin, padding, and borders 
+    are <em>included</em>, so the total width may not exceed the fixed-width value.
+  </p>
+
+  <p>To convert a box to the alternative model, add <code>box-sizing: border-box;</code></p>
+
+  <pre>
+.wrap { width:400px; height:200px; background:lightgrey; }
+.el { width:400px; height:100px; <strong class="code-highlight">box-sizing:border-box;</strong> background:indianred; border:10px solid blue; }
+  </pre>
+
+  <div class="wrap">
+    <div class="el alt"></div>
+  </div>
+
+</body>
+</html>
