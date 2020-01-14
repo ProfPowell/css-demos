@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>06: Z-Index</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="shared/shared.css">
+</head>
+
+<body>
+
+  <style>
+    .wrap { position:relative; min-height:130px; border:1px solid indianred; }
+    .box { padding:10px; width:200px; min-height:110px; }
+    .yellow { background:gold !important; }
+  </style>
+
+  
+  <h1>06 - z-index</h1>
+
+  <p>
+    As we saw in the <a href="05_position.html">Position</a> step, when two or more elements are given position,
+    and compete for the same 2D space, the browser doesn't know which one to give priority to (and thus show above the others). 
+    By default, it favors the DOM element found lowest in the document hierarchy.
+  </p>
+
+  <p>
+    You may find that changing the order of the elements in the DOM is not desirable, or feasible. 
+    Instead, the CSS property <strong>z-index</strong> can be used to raise or lower the element's stacking priority (stacking context). 
+    Think of the device screen as a 2D plane (x and y), where z-index changes the stacking order of elements (z).
+  </p>
+
+  <p>
+    If you are familiar with the idea of <em>layers</em> in Photoshop, z-index behaves the same way; 
+    if you raise the the priority of a stacked layer, it comes to the front of view. 
+    If you lower it, it recedes behind other layers with a higher priority.
+  </p>
+
+  <hr>
+
+  <p>
+    Below, we have two absolutely-positioned elements inside a relative parent, both set to occupy the same position:
+  </p>
+
+  <div class="wrap">
+    <div class="box" style="position:absolute; top:0; left:0;">Box 1 - <code>position:absolute; top:0; left:0;</code></div>
+    <div class="box yellow" style="position:absolute; top:0; left:0;">Box 2 - <code>position:absolute; top:0; left:0;</code></div>
+  </div>
+
+  <p>As noted, Box 2 is visible because it comes lower in the document hierarchy.</p>
+  
+  <p>To fix, we could reorder the box elements, or we can set z-index on Box 1:</p>
+
+  <div class="wrap">
+    <div class="box" style="z-index:1; position:absolute; top:0; left:0;">Box 1 - <code>z-index:0; position:absolute; top:0; left:0;</code></div>
+    <div class="box yellow" style="position:absolute; top:0; left:0;">Box 2 - <code>position:absolute; top:0; left:0;</code></div>
+  </div>
+
+  <p>
+    <strong>Note:</strong> since the value of <code>0</code> (zero) indicates the default state of the element's local stacking context, 
+    you typically see z-index values set starting with <code>1</code> and increasing from there.
+  </p>
+
+  <hr>
+
+  <h2>Child elements inside z-indexed parents</h2>
+
+  <p>
+    By default, all z-index values compete for the same space:
+  </p>
+
+  <div class="wrap">
+    <div class="box" style="position:absolute; top:0; left:0;">
+      <span>Box 1 - <code>position:absolute; top:0; left:0;</code></span>
+      <span style="z-index:3; position:relative; display:block; background:indianred;">z-index:3; Higher z-index child</span>
+    </div>
+    <div class="box yellow" style="z-index:1; position:absolute; top:0; left:0;">
+      <span>Box 2 - <code>z-index:1; position:absolute; top:0; left:0;</code></span>
+    </div>
+  </div>
+
+  <p>
+    Despite Box 2 having a z-index, and Box 1 not, Box 1's child element has a higher z-index set, which is why it appears above Box 2,
+    which in turn appears above Box 1.
+  </p>
+
+  <p>
+    This general competition is severed only if sibling elements both have a z-index set. Once a z-index is set on an element, 
+    its child elements get their own local scope, that resets to zero. Therefore, to fix the above example, Box 1 (1) needs a lower z-index set than Box 2 (2). 
+    Then, despite Box 1's child element having a higher z-index than Box 2 (3), it doesn't matter because they are not competing in the same scope:
+  </p>
+
+  <div class="wrap">
+    <div class="box" style="z-index:1; position:absolute; top:0; left:0;">
+      <span>Box 1 - <code>z-index:1; position:absolute; top:0; left:0;</code></span>
+      <span style="z-index:3; position:relative; display:block; background:indianred;">z-index:3; Higher z-index child</span>
+    </div>
+    <div class="box yellow" style="z-index:2; position:absolute; top:0; left:0;">
+      <span>Box 2 - <code>z-index:2; position:absolute; top:0; left:0;</code></span>
+    </div>
+  </div>
+
+  <p>Now the sub-child element doesn't appear, even though it has a higher z-index.</p>
+
+  <hr>
+  
+  <div class="notes">
+    <h2>Notes:</h2>
+    <ul>
+      <li>
+        Due to z-index scoping, it can quickly become difficult to figure out what is going on. The element you think should be higher up the stack 
+        could be failing because its 10th parent element has its own z-index set and is lower than one of its siblings.<br>
+        <em>It is highly recommended to avoid z-index unless absolutely necessary, and if all other solutions have been exhausted.</em>
+      </li>
+      <li>
+        Negative values can be set for <code>z-index</code>, but you may find yourself putting your element behind the document background, etc. 
+        Negative values are discouraged.
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>

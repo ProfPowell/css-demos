@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>07: Overflow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="shared/shared.css">
+</head>
+
+<body>
+
+  <style>
+    .wrap { border:1px solid indianred; background:lightgrey; }
+    .wrap + .wrap { margin-top:2rem; }
+    .wrap p { margin:0; }
+    .wrap p + p { margin-top:1.5rem; }
+    .wrap + p { margin-top:2rem; }
+    .fixed-height { height:130px; }
+    .fixed-width { width:200px; }
+    .box { padding:10px; width:200px; min-height:110px; }
+  </style>
+
+  
+  <h1>07 - Overflow</h1>
+
+  <p>
+    Overflow dictates how content is treated if its height or width exceeds that of its containing parent.
+  </p>
+  <p>There are <strong>4</strong> overflow values you can set on a block element:</p>
+  <ul>
+    <li><code>visible</code></li>
+    <li><code>hidden</code></li>
+    <li><code>scroll</code></li>
+    <li><code>auto</code></li>
+  </ul>
+
+  <hr>
+
+  <h2>Visible (Default)</h2>
+
+  <p>
+    By default, block elements take the width of their parent. If no parent elements have width set, 
+    the block element's width is that of the device width.<br>
+    Their height is different. Instead of taking the height of their parent, and thus ultimately the
+    document's itself, it takes the height of its child content. As the inner content grows and shrinks, 
+    so does the height of the block element. Since the content is never restricted, the default overflow state of 
+    a block element is said to be visible. You may omit adding <code>overflow: visible;</code>, as this is the default. 
+    Only explicitly set it if you are overriding a pre-existing overflow state on an element (either as a more specific 
+    selector override, or on-demand w/ JavaScript).
+  </p>
+
+  <div class="wrap">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+    <p>Donec molestie vestibulum luctus. Vivamus accumsan imperdiet sapien quis viverra. Pellentesque vitae neque ipsum. Etiam nec sagittis turpis, at eleifend risus. Etiam ut sapien varius, placerat urna nec, mollis dolor. Aliquam sit amet erat commodo, fringilla dui sed, bibendum tortor. Nam suscipit nulla dolor. Maecenas dictum orci sodales ullamcorper semper. Maecenas non pretium nisl. Sed pretium scelerisque arcu eget tristique. Vivamus rhoncus libero vel laoreet congue. Aenean aliquet semper aliquam. Donec et massa eu quam mattis pulvinar vitae imperdiet ligula. Proin tincidunt, magna eleifend porttitor ullamcorper, diam diam tincidunt risus, nec feugiat massa enim id velit.</p>
+  </div>
+
+  <hr>
+
+  <h2>Hidden</h2>
+
+  <p>
+    When a fixed width or height is added to a block element, child content will still be visible and 
+    occupy the same same it would normally (fixed height):
+  </p>
+
+  <div class="wrap" style="height:150px;">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+    <p>Donec molestie vestibulum luctus. Vivamus accumsan imperdiet sapien quis viverra. Pellentesque vitae neque ipsum. Etiam nec sagittis turpis, at eleifend risus. Etiam ut sapien varius, placerat urna nec, mollis dolor. Aliquam sit amet erat commodo, fringilla dui sed, bibendum tortor. Nam suscipit nulla dolor. Maecenas dictum orci sodales ullamcorper semper. Maecenas non pretium nisl. Sed pretium scelerisque arcu eget tristique. Vivamus rhoncus libero vel laoreet congue. Aenean aliquet semper aliquam. Donec et massa eu quam mattis pulvinar vitae imperdiet ligula. Proin tincidunt, magna eleifend porttitor ullamcorper, diam diam tincidunt risus, nec feugiat massa enim id velit.</p>
+  </div>
+
+  <p>Next paragraph text.</p>
+
+  <hr>
+
+  <p>
+    Notice how the <code>Next paragraph text.</code> above is interfering with the excess content above. This is because that paragraph is in the natural document flow 
+    with the fixed-height wrapper element above it. By setting a fixed-height, we told the device where to flow the rest of the document content from, despite the fact 
+    that there was more content inside the wrapper.
+  </p>
+  
+  <p>The simplest way to fix this, and force the wrapper content to stay within the bounds of the parent, is to set <code>overflow: hidden;</code>:</p>
+
+  <div class="wrap fixed-height" style="overflow:hidden;">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+    <p>Donec molestie vestibulum luctus. Vivamus accumsan imperdiet sapien quis viverra. Pellentesque vitae neque ipsum. Etiam nec sagittis turpis, at eleifend risus. Etiam ut sapien varius, placerat urna nec, mollis dolor. Aliquam sit amet erat commodo, fringilla dui sed, bibendum tortor. Nam suscipit nulla dolor. Maecenas dictum orci sodales ullamcorper semper. Maecenas non pretium nisl. Sed pretium scelerisque arcu eget tristique. Vivamus rhoncus libero vel laoreet congue. Aenean aliquet semper aliquam. Donec et massa eu quam mattis pulvinar vitae imperdiet ligula. Proin tincidunt, magna eleifend porttitor ullamcorper, diam diam tincidunt risus, nec feugiat massa enim id velit.</p>
+  </div>
+
+  <p>The excess content is cutoff, and does not interfere with this paragraph's text. However, that's not very useful if you are trying to read the cutoff content.</p>
+  <p>
+    <code>overflow: hidden;</code> is a useful tool, but should be used in the right context. Often, it is used to fix an overflow issue as a quick hack, 
+    instead of time taken to fix the real issue.
+  </p>
+
+  <hr>
+
+  <h2>Scroll</h2>
+
+  <p>
+    Instead of always hidding the excess content, you can set it to scroll. That way the excess is hidden, but accessible. Use <code>overflow: scroll;</code> to add 
+    scrollbars to the block element.
+  </p>
+
+  <p><strong>Note:</strong> The scrollbars always appear, even if the child content doesn't exceed the fixed height;</p>
+
+  <div class="wrap fixed-height" style="overflow:scroll;">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+    <p>Donec molestie vestibulum luctus. Vivamus accumsan imperdiet sapien quis viverra. Pellentesque vitae neque ipsum. Etiam nec sagittis turpis, at eleifend risus. Etiam ut sapien varius, placerat urna nec, mollis dolor. Aliquam sit amet erat commodo, fringilla dui sed, bibendum tortor. Nam suscipit nulla dolor. Maecenas dictum orci sodales ullamcorper semper. Maecenas non pretium nisl. Sed pretium scelerisque arcu eget tristique. Vivamus rhoncus libero vel laoreet congue. Aenean aliquet semper aliquam. Donec et massa eu quam mattis pulvinar vitae imperdiet ligula. Proin tincidunt, magna eleifend porttitor ullamcorper, diam diam tincidunt risus, nec feugiat massa enim id velit.</p>
+  </div>
+
+  <hr>
+
+  <h2>Auto</h2>
+
+  <p>
+    Setting the overflow to <code>overflow: auto;</code> is usually your best bet for overflow content.<br>
+    If the content height is smaller than the fixed height on the block element, no scrollbars are shown.
+    If the content height is taller than the fixed height on the block element, scrollbars are shown:
+  </p>
+
+  <h3>No scrollbars</h3>
+  <div class="wrap fixed-height" style="overflow:auto;">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+  </div>
+
+  <h3>Auto Y-Axis</h3>
+  <div class="wrap fixed-height" style="overflow:auto;">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+    <p>Donec molestie vestibulum luctus. Vivamus accumsan imperdiet sapien quis viverra. Pellentesque vitae neque ipsum. Etiam nec sagittis turpis, at eleifend risus. Etiam ut sapien varius, placerat urna nec, mollis dolor. Aliquam sit amet erat commodo, fringilla dui sed, bibendum tortor. Nam suscipit nulla dolor. Maecenas dictum orci sodales ullamcorper semper. Maecenas non pretium nisl. Sed pretium scelerisque arcu eget tristique. Vivamus rhoncus libero vel laoreet congue. Aenean aliquet semper aliquam. Donec et massa eu quam mattis pulvinar vitae imperdiet ligula. Proin tincidunt, magna eleifend porttitor ullamcorper, diam diam tincidunt risus, nec feugiat massa enim id velit.</p>
+  </div>
+
+  <h3>Auto X and Y-Axis</h3>
+  <div class="wrap fixed-width fixed-height" style="overflow:auto;">
+    <p style="width:400px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p style="width:400px;">
+    <p style="width:400px;">Donec molestie vestibulum luctus. Vivamus accumsan imperdiet sapien quis viverra. Pellentesque vitae neque ipsum. Etiam nec sagittis turpis, at eleifend risus. Etiam ut sapien varius, placerat urna nec, mollis dolor. Aliquam sit amet erat commodo, fringilla dui sed, bibendum tortor. Nam suscipit nulla dolor. Maecenas dictum orci sodales ullamcorper semper. Maecenas non pretium nisl. Sed pretium scelerisque arcu eget tristique. Vivamus rhoncus libero vel laoreet congue. Aenean aliquet semper aliquam. Donec et massa eu quam mattis pulvinar vitae imperdiet ligula. Proin tincidunt, magna eleifend porttitor ullamcorper, diam diam tincidunt risus, nec feugiat massa enim id velit.</p>
+  </div>
+
+  <p>
+    <strong>Note:</strong> Since the default behavior of text is to break to the next line if it can, you might not see X-axis scrolling, 
+    unless you explicitly set a fixed width on an inner-child element, as in the above example.
+  </p>
+
+  <hr>
+
+  <h3>Ellipsis</h3>
+
+  <p>
+    In conjunction with <code>overflow: hidden;</code>, you can use CSS to cutoff text with an ellipsis: <code>...</code>
+    There are <strong>3</strong> properties that achieve this:
+  </p>
+
+  <pre>
+overflow: hidden; 
+text-overflow: ellipsis; 
+white-space: nowrap;
+  </pre>
+
+  <ul>
+    <li><code>overflow: hidden;</code> - We've seen this. This limits the area inside the element where content can be shown; excess will be cutoff.</li>
+    <li><code>text-overflow: ellipsis;</code> - This tells the device how to render the visual indicator of cutoff content. Here, it will be <code>...</code></li>
+    <li><code>white-space: nowrap;</code> - Finally, tell the device not to wrap text, or you would need to set a fixed height on the parent element.</li>
+  </ul>
+
+  <p><strong>Note:</strong> The downside to <code>white-space: nowrap;</code> is that the visible content will be limited to one line.</p>
+
+  <p>For example, take this paragraph:</p>
+
+  <p style="border:1px solid red;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+
+  <p>Here it is with an ellipsis:</p>
+
+  <p style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; border:1px solid red;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+
+  <p>Finally, here it is if you try to add more lines.</p>
+
+  <h4>Fixed height on the paragraph</h4>
+  <p style="height:50px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; border:1px solid red;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+
+  <h4>Omitting the no wrap with the fixed height</h4>
+  <p style="height:50px; overflow:hidden; text-overflow:ellipsis; border:1px solid red;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Proin ultrices diam a quam faucibus, sit amet interdum metus laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In tristique sit amet lorem ac semper. Etiam mauris purus, euismod ut tellus at, suscipit sagittis mauris. Nam placerat, lacus ac dictum fermentum, augue massa ultricies urna, scelerisque blandit magna diam dictum est. Donec id commodo odio.</p>
+
+</body>
+</html>

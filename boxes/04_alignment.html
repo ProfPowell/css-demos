@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" display="block" type="traditional">
+<head>
+  <meta charset="utf-8">
+  <title>04:Alignment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="shared/shared.css">
+</head>
+
+<body>
+
+  <style>
+    .box { padding:10px; }
+    .box + .box { margin-block-start:30px; }
+    .center { text-align:center; }
+    .right { text-align:end; }
+
+    [direction="rtl"] .box { direction:rtl; }
+    [writing*="vertical"] .box { height:500px; }
+    [writing="vertical-lr"] .wrap { writing-mode:vertical-lr; }
+    [writing="vertical-rl"] .wrap { writing-mode:vertical-rl; }
+    [type="traditional"] .right { text-align:right; }
+    [type="logical"] .right { text-align:end; }
+  </style>
+
+  
+  <h1>04 - Alignment</h1>
+  
+  
+  <h2>Horizontal Alignment</h2>
+
+  <div class="tools">
+    <div>
+      <label for="writing">Writing Mode</label>
+      <select id="writing">
+        <option value="horizontal-tb" selected>Horizontal, top-to-bottom</option>
+        <option value="vertical-lr">Vertical, left-to-right</option>
+        <option value="vertical-rl">Vertical, right-to-left</option>
+      </select>
+    </div>
+    <div>
+      <label for="direction">Direction</label>
+      <select id="direction">
+        <option value="ltr" selected>Left to Right</option>
+        <option value="rtl">Right to Left</option>
+      </select>
+    </div>
+    <div>
+      <label for="type">Value Type</label>
+      <select id="type">
+        <option value="traditional" selected>Traditional</option>
+        <option value="logical">Logical</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="box">Left/Start Align</div>
+    <div class="box center">Center Align</div>
+    <div class="box right">Right/End Align</div>
+  </div>
+
+  <p class="cta">
+    Using the <code>Traditional</code> alignments of <strong>left</strong> and <strong>right</strong>, 
+    outside of a top-to-bottom, left-to-right orientation, breaks down. Thus, the 'CSS-Next' <em>logical property</em> 
+    values overcome this limitation.
+  </p>
+  <small>(For more information, watch this segment on <a href="https://www.youtube.com/watch?v=-oyeaIirVC0&t=578s">Logical Properties</a> from the Google Dev Summit )</small>
+
+  <div class="notes">
+    <h3>Notes:</h3>
+    <ul>
+      <li>To horizontally align text inside a block element,<br> use the <code>text-align</code> property.</li>
+      <li>Traditionally, the values of <code>left, right, and center</code> are used.</li>
+      <li>With other writing modes and text directions supported now, this traditional model breaks down.</li>
+      <li>Instead, logical properties are used that don't represent absolute positions: <code>start, end, and center</code></li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <h2>Vertical Alignment</h2>
+
+  <div class="tools">
+    <div>
+      <label for="display">Display Type</label>
+      <select id="display">
+        <option value="block" selected>Block</option>
+        <option value="flex">Flex</option>
+        <option value="table">Table</option>
+      </select>
+    </div>
+  </div>
+
+  <style>
+    .horz .box { margin:0; height:200px; }
+    .horz .box + .box { margin-left:1.5rem; }
+    [display="block"] .horz:after { content:''; display:block; clear:both; }
+    [display="block"] .horz .box { float:left; }
+    [display="flex"] .horz { display:flex; align-items:center; }
+    [display="flex"] .horz .box { display:flex; align-items:center; }
+    [display="table"] .horz { margin-bottom:-3rem; display:table; border-spacing:1.5rem; transform:translate(-1.5rem,-1.5rem); }
+    [display="table"] .horz .box { display:table-cell; vertical-align:middle; }
+  </style>
+
+  <div class="horz">
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+  </div>
+
+
+  <div class="notes">
+    <h3>Notes:</h3>
+    <ul>
+      <li>By default, block elements use the CSS display equivalent: <code>display:block;</code>.</li>
+      <li>
+        Block-displayed elements set their height to the height of their inner content, 
+        <em>which is still within the document flow</em>. This is an important distinction,
+        since some child content may be removed from the document flow with CSS, like <code>float:left;</code> 
+        and <code>position:absolute;</code>. These properties will be discussed in later example steps, but for now,
+        block elements take the height of their child content, by default.
+      </li>
+      <li>
+        Therefore, vertical padding is the only way to give the presence of vertical positioning in block-displayed elements.
+        Even if you set the height of the block element manually to a height greater than the content, there are no options
+        for vertical alignment.
+      </li>
+      <li>
+        Some element display types besides <em>block</em>, however, change the behavior of the element, 
+        which in turn provides vertical-alignment options.
+        <ul>
+          <li><code>display:grid;</code> offers the <code>align-items:center;</code> option</li>
+          <li>
+            <code>display:flex;</code> offers the <code>align-items:center;</code> option in 'row' orientation, 
+            and the <code>justify-content:center;</code> option in 'column' orientation. In both of those contexts,
+            the option vertically-aligns the text.
+          </li>
+          <li>
+            <code>&lt;table&gt;</code>, and its CSS equivalent <code>display:table;</code>, 
+            both give access to the <code>vertical-align:middle;</code> property, 
+            with its own value range.
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+
+
+  <script>
+    var direction = document.querySelector('#direction');
+    var display = document.querySelector('#display');
+    var type = document.querySelector('#type');
+    var writing = document.querySelector('#writing');
+    direction.addEventListener('change', handler);
+    display.addEventListener('change', handler);
+    type.addEventListener('change', handler);
+    writing.addEventListener('change', handler);
+    function handler(e) {
+      var target = e.target;
+      document.documentElement.setAttribute(target.id, target.value);
+    }
+  </script>
+
+</body>
+</html>
