@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>06: Z-Index</title>
+  <title>07: Z-Index</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="shared/shared.css">
 </head>
@@ -16,16 +16,16 @@
   </style>
 
   
-  <h1>06 - z-index</h1>
+  <h1>07 - z-index</h1>
 
   <p>
-    As we saw in the <a href="05_position.html">Position</a> step, when two or more elements are given position,
+    As we saw in the <a href="06_position.html">Position</a> example, when two or more elements are given position,
     and compete for the same 2D space, the browser doesn't know which one to give priority to (and thus show above the others). 
-    By default, it favors the DOM element found lowest in the document hierarchy.
+    By default, it favors the element found lowest in the document hierarchy tree.
   </p>
 
   <p>
-    You may find that changing the order of the elements in the DOM is not desirable, or feasible. 
+    You may find that changing the order of the elements in the document tree is not desirable, or feasible (don't have access to the html, only CSS, etc.). 
     Instead, the CSS property <strong>z-index</strong> can be used to raise or lower the element's stacking priority (stacking context). 
     Think of the device screen as a 2D plane (x and y), where z-index changes the stacking order of elements (z).
   </p>
@@ -47,12 +47,12 @@
     <div class="box yellow" style="position:absolute; top:0; left:0;">Box 2 - <code>position:absolute; top:0; left:0;</code></div>
   </div>
 
-  <p>As noted, Box 2 is visible because it comes lower in the document hierarchy.</p>
+  <p>As noted, Box 2 is visible because it comes lower in the document hierarchy than Box 1.</p>
   
-  <p>To fix, we could reorder the box elements, or we can set z-index on Box 1:</p>
+  <p>To fix, we could reorder the box elements in the document, or we can set z-index on Box 1:</p>
 
   <div class="wrap">
-    <div class="box" style="z-index:1; position:absolute; top:0; left:0;">Box 1 - <code>z-index:0; position:absolute; top:0; left:0;</code></div>
+    <div class="box" style="z-index:1; position:absolute; top:0; left:0;">Box 1 - <code>z-index:1; position:absolute; top:0; left:0;</code></div>
     <div class="box yellow" style="position:absolute; top:0; left:0;">Box 2 - <code>position:absolute; top:0; left:0;</code></div>
   </div>
 
@@ -66,7 +66,23 @@
   <h2>Child elements inside z-indexed parents</h2>
 
   <p>
-    By default, all z-index values compete for the same space:
+    By default, all z-index values compete for the same space. Consider this code:
+  </p>
+
+  <pre style="margin-top:-.5rem;">
+&lt;div class="wrap"&gt;
+  &lt;div class="box"&gt;
+    &lt;span&gt;Box 1&lt;/span&gt;
+    &lt;span style="z-index:3; position:relative;"&gt;z-index:3; Higher z-index child&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="box yellow" style="z-index:1; position:absolute;"&gt;Box 2&lt;/div&gt;
+&lt;/div&gt;  
+  </pre>
+
+  <p>
+    On first glance, you would expect Box 2 to cover Box 1, and all of its child content (Box 3), 
+    since Box 2 has z-index set and Box 1 doesn't, and because they are sibling elements at a higher point 
+    in the document tree hierarchy (Box 3 is a child, or subordinant, of Box 1).
   </p>
 
   <div class="wrap">
@@ -80,14 +96,17 @@
   </div>
 
   <p>
-    Despite Box 2 having a z-index, and Box 1 not, Box 1's child element has a higher z-index set, which is why it appears above Box 2,
-    which in turn appears above Box 1.
+    But it doesn't. Despite Box 2 having a z-index, and Box 1 not, Box 3 has a higher z-index set than Box 2.
+    By default, and with no interference from ancestor-element settings (as we'll see below), all z-index values 
+    compete, regardless of their depth in the document tree.
   </p>
 
   <p>
-    This general competition is severed only if sibling elements both have a z-index set. Once a z-index is set on an element, 
-    its child elements get their own local scope, that resets to zero. Therefore, to fix the above example, Box 1 (1) needs a lower z-index set than Box 2 (2). 
-    Then, despite Box 1's child element having a higher z-index than Box 2 (3), it doesn't matter because they are not competing in the same scope:
+    This 'global' competition is severed only if sibling elements both have a z-index set (Box 1 <em>and</em> Box 2). 
+    Once a z-index is set on an element, its child elements get their own local scope, that resets to zero. 
+    Therefore, to fix the above example, Box 1 (1) needs a lower z-index set than Box 2 (2). 
+    Then, despite Box 1's child element (Box 3) having a higher z-index than Box 2 (3), 
+    it doesn't matter because they are not competing in the same scope anymore.
   </p>
 
   <div class="wrap">
@@ -102,22 +121,18 @@
 
   <p>Now the sub-child element doesn't appear, even though it has a higher z-index.</p>
 
-  <hr>
-  
-  <div class="notes">
-    <h2>Notes:</h2>
-    <ul>
-      <li>
-        Due to z-index scoping, it can quickly become difficult to figure out what is going on. The element you think should be higher up the stack 
-        could be failing because its 10th parent element has its own z-index set and is lower than one of its siblings.<br>
-        <em>It is highly recommended to avoid z-index unless absolutely necessary, and if all other solutions have been exhausted.</em>
-      </li>
-      <li>
-        Negative values can be set for <code>z-index</code>, but you may find yourself putting your element behind the document background, etc. 
-        Negative values are discouraged.
-      </li>
-    </ul>
-  </div>
+  <aside>
+    <p>
+      <strong>Notes:</strong> 
+      Due to z-index scoping, it can quickly become difficult to figure out what is going on. The element you think should be higher up the stack 
+      could be failing because its 10th parent element has its own z-index set and is lower than one of its siblings.<br>
+      <em>It is highly recommended to avoid z-index unless absolutely necessary, and if all other solutions have been exhausted.</em>
+    </p>
+    <p>
+      Negative values can be set for <code>z-index</code>, but you may find yourself putting your element behind the document background, etc. 
+      Negative values are discouraged.
+    </p>
+  </aside>
 
 </body>
 </html>

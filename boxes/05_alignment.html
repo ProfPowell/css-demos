@@ -2,7 +2,7 @@
 <html lang="en" display="block" type="traditional">
 <head>
   <meta charset="utf-8">
-  <title>04:Alignment</title>
+  <title>05: Alignment</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="shared/shared.css">
 </head>
@@ -24,10 +24,30 @@
   </style>
 
   
-  <h1>04 - Alignment</h1>
+  <h1>05 - Alignment</h1>
+
+  <p>
+    <strong>Alignment</strong> refers to the orientation of text inside a block element. 
+    There are <strong>2</strong> types of alignment: <em>vertical</em> and <em>horizontal</em>.
+    However, they don't always apply to every element.
+  </p>
   
+  <hr>
   
   <h2>Horizontal Alignment</h2>
+
+  <p>To horizontally align text inside a block element,<br> use the <code>text-align</code> property.</p>
+
+  <p>
+    Traditionally, the values of <code>left, right, and center</code> have been used. 
+    However, with writing modes and text directions of other languages now supported directly via HTML, this traditional model breaks down.
+    Instead, using logical properties like <code>start</code> and <code>end</code> keeps their representation dynamic, instead of the former values' absolute representation.
+  </p>
+
+  <p>
+    The interactable demo below allows you to change writing modes and text directions, 
+    as well as letting you choose between the traditional and logical types.
+  </p>
 
   <div class="tools">
     <div>
@@ -63,23 +83,47 @@
   <p class="cta">
     Using the <code>Traditional</code> alignments of <strong>left</strong> and <strong>right</strong>, 
     outside of a top-to-bottom, left-to-right orientation, breaks down. Thus, the 'CSS-Next' <em>logical property</em> 
-    values overcome this limitation.
+    values overcome this limitation. For more information, watch this segment on <a href="https://www.youtube.com/watch?v=-oyeaIirVC0&t=578s">Logical Properties</a> 
+    from the Google Dev Summit.
   </p>
-  <small>(For more information, watch this segment on <a href="https://www.youtube.com/watch?v=-oyeaIirVC0&t=578s">Logical Properties</a> from the Google Dev Summit )</small>
-
-  <div class="notes">
-    <h3>Notes:</h3>
-    <ul>
-      <li>To horizontally align text inside a block element,<br> use the <code>text-align</code> property.</li>
-      <li>Traditionally, the values of <code>left, right, and center</code> are used.</li>
-      <li>With other writing modes and text directions supported now, this traditional model breaks down.</li>
-      <li>Instead, logical properties are used that don't represent absolute positions: <code>start, end, and center</code></li>
-    </ul>
-  </div>
 
   <hr>
 
   <h2>Vertical Alignment</h2>
+
+  <p>By default, block elements use the CSS display equivalent: <code>display: block;</code>.</p>
+
+  <p>
+    Block-displayed elements set their height to the height of their inner content, 
+    <em>which is still within the document flow</em>. This is an important distinction,
+    since some child content may be removed from the document flow with CSS, like <code>float:left;</code> 
+    and <code>position:absolute;</code>. These properties will be discussed in later example pages, but for now,
+    block elements take the height of their child content, by default.
+  </p>
+
+  <p>
+    Therefore, vertical padding is the only way to give the presence of vertical positioning in block-displayed elements.
+    Even if you set the height of the block element manually to a height greater than the content, there are no options
+    for vertical alignment.
+  </p>
+
+  <p>
+    Some element display types besides <em>block</em>, however, change the behavior of the element, 
+    which in turn provides vertical-alignment options.
+  </p>
+  <ul>
+    <li><code>display:grid;</code> offers the <code>align-items:center;</code> option</li>
+    <li>
+      <code>display:flex;</code> offers the <code>align-items:center;</code> option in 'row' orientation, 
+      and the <code>justify-content:center;</code> option in 'column' orientation. In both of those contexts,
+      the option vertically-aligns the text.
+    </li>
+    <li>
+      <code>&lt;table&gt;</code>, and its CSS equivalent <code>display:table;</code>, 
+      both give access to the <code>vertical-align:middle;</code> property, 
+      with its own value range.
+    </li>
+  </ul>
 
   <div class="tools">
     <div>
@@ -106,43 +150,6 @@
   <div class="horz">
     <div class="box">Box 1</div>
     <div class="box">Box 2</div>
-  </div>
-
-
-  <div class="notes">
-    <h3>Notes:</h3>
-    <ul>
-      <li>By default, block elements use the CSS display equivalent: <code>display:block;</code>.</li>
-      <li>
-        Block-displayed elements set their height to the height of their inner content, 
-        <em>which is still within the document flow</em>. This is an important distinction,
-        since some child content may be removed from the document flow with CSS, like <code>float:left;</code> 
-        and <code>position:absolute;</code>. These properties will be discussed in later example steps, but for now,
-        block elements take the height of their child content, by default.
-      </li>
-      <li>
-        Therefore, vertical padding is the only way to give the presence of vertical positioning in block-displayed elements.
-        Even if you set the height of the block element manually to a height greater than the content, there are no options
-        for vertical alignment.
-      </li>
-      <li>
-        Some element display types besides <em>block</em>, however, change the behavior of the element, 
-        which in turn provides vertical-alignment options.
-        <ul>
-          <li><code>display:grid;</code> offers the <code>align-items:center;</code> option</li>
-          <li>
-            <code>display:flex;</code> offers the <code>align-items:center;</code> option in 'row' orientation, 
-            and the <code>justify-content:center;</code> option in 'column' orientation. In both of those contexts,
-            the option vertically-aligns the text.
-          </li>
-          <li>
-            <code>&lt;table&gt;</code>, and its CSS equivalent <code>display:table;</code>, 
-            both give access to the <code>vertical-align:middle;</code> property, 
-            with its own value range.
-          </li>
-        </ul>
-      </li>
-    </ul>
   </div>
 
 

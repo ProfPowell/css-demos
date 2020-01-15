@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>10: Layout</title>
+  <title>11: Layout</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="shared/shared.css">
 </head>
@@ -10,13 +10,14 @@
 <body>
 
   <style>
-    h3 { font-size:1.125rem; }
+    h3 { margin-top:4rem; font-size:1rem; }
     .wrap { border:1px solid indianred; background:lightgrey; }
     .box { padding:10px; border:1px solid red; }
     p { max-width:40rem; }
+    p + pre { margin:-.5rem 0 1rem; }
     .clear:after { content:''; display:block; clear:left; }
 
-    .layout { max-width:800px; min-height:300px; background:lightgrey; }
+    .layout { max-width:800px; min-height:200px; background:lightgrey; }
     
     .flex { display:flex; }
     .grid { display:grid; }
@@ -33,31 +34,31 @@
   </style>
 
   
-  <h1>10 - Layout</h1>
+  <h1>11 - Layout</h1>
 
-  <p>
-    Block and inline elements create a page flow, dictated by default properties. 
-    <strong>Block elements</strong> occupy their own horizontal space, and are stacked vertically. 
-    <strong>inline elements</strong> align horizontally with other inline element. 
-    These fundamental layout properties give the document shape, even when CSS is not used.
-  </p>
+  <p>Block and inline elements create a page flow, dictated by default properties.</p>
+  <ul class="compact">
+    <li><strong>Block elements</strong> occupy their own horizontal space, and are stacked vertically.</li>
+    <li><strong>inline elements</strong> align horizontally with other inline elements.</li>
+  </ul>
+  <p>These fundamental layout properties give the document shape, even when CSS is not used.</p>
 
   <p>
     With CSS, you have the option to layout these boxes in new ways, that exceed their basic rules.
   </p>
 
   <p>
-    This document will briefly talk about <strong>3</strong> systems for layout, although there are other variants 
-    and methods available.
+    This document briefly describes <strong>3</strong> systems for layout, although there are other variants 
+    and methods available:
   </p>
 
-  <ul>
+  <ul class="compact">
     <li><a href="#float">Float</a></li>
     <li><a href="#flexbox">Flexbox</a></li>
     <li><a href="#grid">Grid</a></li>
   </ul>
 
-  <p>For each, we'll use it to layout a simple two-column page, with a full-width header and footer area, and a <code>1rem</code> gap between elements.</p>
+  <p>For each system, we'll use it to layout a simple two-column page, with a full-width header and footer area, and a <code>1rem</code> gap between elements.</p>
 
   <div class="layout grid grid-final">
     <header>Header</header>
@@ -66,7 +67,7 @@
     <footer>Footer</footer>
   </div>
 
-  <p>This natural state of these block elements before any layout system code is applied:<br><small>(a minimumn height is applied to the wrapper layout element (grey))</small></p>
+  <p>For reference, this is natural state of these block elements before any layout code is applied.</p>
 
   <div class="layout">
     <header>Header</header>
@@ -75,20 +76,40 @@
     <footer>Footer</footer>
   </div>
 
+  <aside>
+    <p><strong>Note:</strong> a minimum height is applied to the grey wrapper element to demonstrate vertical stretching in some of the demos below.</p>
+  </aside>
+
   <hr>
+
+
+
+
 
   <h2 id="float">Float</h2>
 
+  <p>The simplest layout system, <strong>floating</strong> an element postions them horizontally, even if they are a block element.</p>
   <p>
-    The simplest layout system, <strong>floating</strong> elements postions them horizontally, even if they are a block element.
-    You have limited positioning of the floated set of items via declarative statements like <code>left</code> and <code>right</code>, 
-    instead of needing to position them via specific unit values like <code>position</code> with its <code>top, bottom, left, and right</code> properties.
+    Unlike setting <code>position</code>, where you specify units for the <code>top</code>, <code>bottom</code>, <code>left</code>, and <code>right</code> properties, floats 
+    just take declaritive statements, like <code>left</code> and <code>right</code>, as in <code>float: right;</code>.
   </p>
 
   <p>Like absolute positioning, when you float an element it is removed from the natural flow of the document.</p>
 
+  <pre>
+&lt;div style="border:1px solid indianred;"&gt;
+  &lt;span style="float:right; background:lightgrey;"&gt;Floated element&lt;/span&gt;
+&lt;/div&gt;
+  </pre>
+
+  <div class="limit" style="margin-bottom:3rem; border:1px solid indianred;">
+    <span style="float:right; background:lightgrey;">Floated element</span>
+  </div>
+
+  <p class="cta">The parent wrapper doesn't clear the height of the floated element, because it thinks it has no child elements!</p>
+
   <p>
-    Since we want <code>Column 1</code> and <code>Column 2</code> to be next to each other horizontally,
+    In our demo, since we want <code>Column 1</code> and <code>Column 2</code> to be next to each other horizontally,
     we can just float those two elements:
   </p>
 
@@ -106,18 +127,29 @@
   <p>What happened to the footer?</p>
 
   <p>
-    Since we know when an element is removed from the natural page flow, all content after it in the DOM fills in 
-    the space as if those elements weren't there to begin with. This is the case here. If you inspect the footer, 
-    you'll see that it extends all the way to the left edge. However, since the content in Column 1 and 2, and the whole 
-    layout for that matter, are still inline, the Footer's text 'clears' that of the 2 columns. A bit odd, but this fits 
-    the content rules.
+    Since we know when an element is removed from the natural page flow, all content after it in the document tree fills in 
+    the space it previously occupied. This is the case here. If you inspect the footer, 
+    you'll see that its left edge extends all the way to the left edge of the parent, despite its child text <code>Footer</code> 
+    not aligned towards the left edge as well.
+  </p>
+  <p>
+    This behavior of the text clearing the text of the floated columns is a natural behavior of floats.
   </p>
 
+  <hr>
+
   <p>
-    To fix this, you need to clear the floated elements, so that the content after them continues to flow as expected.
-    This is done with the CSS <code>clear</code> property. Since the columns were floated left, we set the clear value to <code>left</code> as well. 
-    You can also clear right-floated elements, or clear <code>all</code> floated elements above it, regardless of float type.
+    To fix this, you need the footer to clear the floated elements and force itself on a new line below them.
+    Using the CSS <code>clear</code> property on the footer tells it to clear floated elements above it in the document tree. 
   </p>
+  <p>There are <strong>3</strong> clear values you can set, which should correspond to the float type set on the items you wish to clear:</p>
+  <ul class="compact">
+    <li><code>left</code></li>
+    <li><code>right</code></li>
+    <li><code>both</code></li>
+  </ul>
+
+  <p>Clearing the floated columns results in our expected result.</p>
 
   <pre>
 .col1, .col2 { float:left; }
@@ -132,10 +164,14 @@ footer { clear:left; }
   </div>
 
   <p>
-    The problem with this approach is that it expects the footer to always be the element after Column 2.
-    If you add another element in between, it will behave like the original footer did and won't layout correctly. 
-    Instead, it is ideally better to add the clear onto a location that always stays with the last item with a float applied.
-    It would make sense to apply it directly to Column 2, however if applied, it would clear Column 1 just like the footer cleared Column 2.
+    The problem with this approach is that it expects the footer to always be the element directly after Column 2.
+    If you add another element in between them, the new element would behave like the footer did initially, since it wouldn't have a clear applied.
+  </p>
+  <p>
+    Therefore, it is better to add the clear onto a location that always stays directly after your last floated target.
+    In this case, it would be after Column 2.
+    You might be thinking, why not just add the clearfix to Column 2 directly? If you did, though, 
+    it would just clear Column 1 in the same way the footer cleared Column 2.
   </p>
 
   <pre>
@@ -150,14 +186,14 @@ footer { clear:left; }
     <footer>Footer</footer>
   </div>
 
-  <p>Not what we want. You might then be tempted to insert an element solely for the purposes of clearing the columns:</p>
+  <p>You might then be tempted to insert an element solely for the purposes of clearing the columns:</p>
 
   <pre>
 &lt;div class="float"&gt;
   &lt;header&gt;Header&lt;/header&gt;
   &lt;div style="float:left;"&gt;Column 1&lt;/div&gt;
   &lt;div style="float:left;"&gt;Column 2&lt;/div&gt;
-  &lt;span style="display:block; clear:left;"&gt;&lt;/span&gt;
+  <strong>&lt;span style="display:block; clear:left;"&gt;&lt;/span&gt;</strong>
   &lt;footer&gt;Footer&lt;/footer&gt;
 &lt;/div&gt;
   </pre>
@@ -170,23 +206,28 @@ footer { clear:left; }
     <footer>Footer</footer>
   </div>
 
+  <p>
+    While this indeed works, you had to introduce an element solely for presentational reasons, 
+    and since elements added to a document are relatively expensive, this practice is usually frowned upon, 
+    especially since CSS exists to handle element presentation.
+  </p>
 
   <p>
-    This works, but you had to add a markup element just for presentation. Not ideal.
-    You could get around this by wrapping the 2 columns in a block element, and then applying 
-    the same clear fix. The wrapper is slightly better than the empty container, but you've 
-    still added markup to facilitate presentation.
+    Instead, you can get around this by wrapping the 2 columns in a block element, and then applying 
+    the same clear fix to it, using a special feature of CSS, <em>pseudo selectors</em>.
+    This new wrapper is slightly better than the empty container from before, 
+    but you've still added markup solely to facilitate presentation.
   </p>
 
   <pre>
-.clear:after { content:''; display:block; clear:left; }
+<strong>.clear:after { content:''; display:block; clear:left; }</strong>
 
 &lt;div class="float"&gt;
   &lt;header&gt;Header&lt;/header&gt;
-  &lt;div class="clear"&gt;
+  <strong>&lt;div class="clear"&gt;</strong>
     &lt;div style="float:left;"&gt;Column 1&lt;/div&gt;
     &lt;div style="float:left;"&gt;Column 2&lt;/div&gt;
-  &lt;/div&gt;
+  <strong>&lt;/div&gt;</strong>
   &lt;footer&gt;Footer&lt;/footer&gt;
 &lt;/div&gt;
   </pre>
@@ -201,22 +242,27 @@ footer { clear:left; }
   </div>
 
   <aside>
-    <strong>Note:</strong> The CSS pseudo-selector <code>:after</code> is used to effectively 
-    create the empty clear element from the previous example. This is slightly better, since 
-    you're not adding an empty DOM element to handle the clearing.
+    <p><strong>Note:</strong> The CSS pseudo-selector <code>:after</code> is used to effectively 
+    create the empty clear element from the previous example. You get the benefit without introducing 
+    and empty document element (the 'element' in this case is CSS code, not a document tag).
+    </p>
+    <p>You can read more about this on the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::after">CSS selectors page</a>.</p>
   </aside>
+  
 
   <h3>Column width and column gaps</h3>
 
   <p>
-    Now we have the basic layout, we still need it to look like our reference demo. 
-    For the column widths, when you float an element without a fixed width, it takes the 
-    width of its content. So to fix this we need to declare our column widths. There are a lot 
-    of ways to do this, but your best bet is relative, or responsive, units so that they recalculate when the device width changes.
+    Now that we have the basic layout, we still need it to look like our reference demo. 
+    For the column widths, when you float an element without a fixed width set, it takes the 
+    width of its content. So to fix this we need to declare our column widths.
+  </p>
+  <p>
+    There are a lot of ways to do this, but your best bet is relative (responsive) units. This way they recalculate when the device width changes.
   </p>
 
   <pre>
-    .col1, .col2 { width:50%; }
+.col1, .col2 { width:50%; }
   </pre>
     
   <div class="layout float">
@@ -228,9 +274,9 @@ footer { clear:left; }
     <footer>Footer</footer>
   </div>
 
+  <p>That worked, but why are the 2 columns not lined up horizontally?</p>
   <p>
-    Why are the 2 columns not lined up horizontally? 
-    Recall from <a href="09_box-model.html#standard">Step 9</a> the default box model, <em>Standard Box Model</em>. Margin, padding, and borders are added 
+    Recall from the <a href="09_box-model.html#standard">Box Model</a> page, the default box model is the <em>Standard Box Model</em>. Margin, padding, and borders are added 
     <em>in addition</em> to the content width. For Column 1 and Column 2, they both have horizontal padding, 
     so their widths are more than 50% when their padding is factored in.
   </p>
@@ -238,7 +284,7 @@ footer { clear:left; }
   <p>To fix this, we can force the columns to render as the Alternative Box Model:</p>
 
   <pre>
-    .col1, .col2 { width:50%; box-sizing:border-box; }
+.col1, .col2 { width:50%; box-sizing:border-box; }
   </pre>
 
   <p>
@@ -247,7 +293,9 @@ footer { clear:left; }
   </p>
 
   <pre>
-    &lt;div class="col1" style="width:50%; float:left;"&gt;&lt;div style="padding:10px;"&gt;Column 1&lt;/div&gt;&lt;/div&gt;
+&lt;div class="col1" style="width:50%; float:left;"&gt;
+  &lt;div style="padding:10px;"&gt;Column 1&lt;/div&gt;
+&lt;/div&gt;
   </pre>
     
   <div class="layout float">
@@ -259,7 +307,23 @@ footer { clear:left; }
     <footer>Footer</footer>
   </div>
 
-  <p>Now what about the gaps in between the header, columns, and the footer? You need to apply these individually to the elements.</p>
+  <p>Now what about the gaps in between the header, columns, and the footer?</p>
+  <p>
+    You need to apply these individually to the elements, using <code>margin</code>.
+    Floats do not have their own methods of handling gaps, as we'll see with the other layout systems, 
+    nor the ability to recalculate widths to accommodate added gaps, as we see below.
+  </p>
+
+  <pre>
+&lt;div class="float"&gt;
+  &lt;header&gt;Header&lt;/header&gt;
+  &lt;div class="clear"&gt;
+    &lt;div class="col1" style="<strong>margin:1rem 0;</strong> width:50%; float:left;"&gt;Column 1&lt;/div&gt;
+    &lt;div class="col2" style="<strong>margin:1rem 0 1rem 1rem;</strong> width:50%; float:left;"&gt;Column 2&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;footer&gt;Footer&lt;/footer&gt;
+&lt;/div&gt;
+  </pre>
 
   <div class="layout float">
     <header>Header</header>
@@ -271,16 +335,16 @@ footer { clear:left; }
   </div>
 
   <p>
-    What is wrong with the columns? Since we set both of them to 50% width of the wrapper's width,
-    we have used up the available horizontal space. Now, when we try to add a left-margin to Column 2,
-    we're extending its content model past 50%, so it breaks to the next line where it finds the space to 
-    accommodate its extra width.
+    Not quite what we expected. Since we set both of the column widths to 50%, we used up the available horizontal space. 
+    Now, when we tried to add a left-margin to Column 2, we extended its content model past 50%, 
+    so it breaks to the next line where it finds the space to accommodate its extra width.
   </p>
 
   <p>
     Here's where it gets tricky. You could set the widths of the columns to a lower relative value, 
-    to compensate for the margins, but there is no guarantee that columns will fill the full horizontal width, 
-    or maintain the same gap distance regardless of device width, especially if you mix units for the width and margins.
+    to compensate for the margins, but there is no guarantee that the columns will fill the full horizontal width, 
+    or maintain the same gap distance (regardless of device width), especially if you mix relative and absolute units 
+    for the width and margins.
   </p>
 
   <p>
@@ -304,7 +368,7 @@ footer { clear:left; }
   <p>
     This works, but a 4% gap will be different at different device widths. There is no real way to guarantee 
     a fixed gap distance while also having relative column widths, unless you calculate the widths using 
-    CSS <code>calc</code>. However, as you see this is clunky and can be hard to manage at scale.
+    CSS <code>calc</code>. However, as you can see, this is clunky and can be hard to manage at scale.
   </p>
 
   <pre>
@@ -321,9 +385,11 @@ footer { clear:left; }
     <footer>Footer</footer>
   </div>
 
+  <p>This solves the column width issue, but is not ideal. Let's move on.</p>
+  
   <p>
-    This solves the column width, but is not ideal. But what if the column's content length differed. How would you have the 
-    shorter column line up with the longer, so that the background colors filled the whole vertical space?
+    What if the columns' content length differed. How would you have the shorter column's baseline line up with the longer column's, 
+    so that the background colors filled the whole vertical space?
   </p>
 
   <div class="layout float">
@@ -336,19 +402,19 @@ footer { clear:left; }
   </div>
 
   <p>
-    You might say to set each column to 100% height, but floated elements already take the height of their content. 
+    You might try to set each column to 100% height, but floated elements already take the height of their content. 
     Explicitly setting <code>height: 100%;</code> does nothing.
   </p>
 
   <p>
-    Unfortunately, there's no easy or nice answer here. Developers in the past had to get really creative to 
-    overcome this limitation. This included setting min-heights on the columns, hoping the content never extended past it, 
-    to extreme measures including setting fixed column-widths and then using a background image on the parent wrapper box 
-    to vertically repeat an image that included the 2 column's background colors at the correct width, with the gap in the middle.
+    Unfortunately, there is no easy or nice answer here. Developers in the past had to get really creative to 
+    overcome this limitation. From setting min-heights on the columns, in the hopes the content never extended past it, 
+    to extreme measures like setting fixed column-widths, and then using a vertically-repeated background image on the parent wrapper box, 
+    that contained the 2 columns' background color, and the middle gap at the correct fixed widths. Yikes.
   </p>
 
   <p>
-    We got close with this final code, but a solution for the column height would still need to be made.
+    We got close using floats, but it became hard to manage, and we didn't really solve the variable-content height issue:
   </p>
 
   <pre>
@@ -359,7 +425,7 @@ footer { clear:left; }
 
   <p>
     Needless to say, using <code>float</code> for complex layout is not the right solution. Fortunately, 
-    another layout system was developed that made the challenges above more manageable, and make it easier 
+    another layout system was developed that makes the challenges above more manageable, and makes it easier 
     to adjust layout behavior: <strong>Flexbox</strong>;
   </p>
 
@@ -368,15 +434,15 @@ footer { clear:left; }
     <p>
       Before we talk about Flexbox, let's discuss what <code>float</code> is useful for. These days, 
       float is almost exclusively used to remove elements from the natural document flow, so that the content below it 
-      fills the vacant space, while also taking advantage of the content interaction we saw above, where the footer's text 
-      was indented to 'clear' the column's text even though the footer box continued all the way to the left edge of the parent element.
+      fills the vacant space, while also taking advantage of the content interaction we saw above, where content 'flows' 
+      around the floated element.
     </p>
 
-    <p>The best way to demonstrate this is to float an image inside a paragraph so that the remaining text flows around it.</p>
+    <p>The best way to demonstrate this is to float an image inside a paragraph, so that the remaining text clearly flows around it.</p>
 
     <p>
-      By default, the image is shown with the text baselined to the bottom of the image, since the image is just another inline 
-      source like the text. We have to do something to make the text flow around it.
+      By default, since an image is an inline element, its baseline is the same as the other inline content around it. 
+      You can tell this below, since there is a large gap above the text, from the image's top edge to its baseline.
     </p>
 
     <p class="box">
@@ -384,7 +450,7 @@ footer { clear:left; }
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros.
     </p>
 
-    <p>When we float the image, it is removed from the flow, and the text fills the vacant space.</p>
+    <p>When we float the image, it is removed from the natural flow, and the text fills the vacated space.</p>
 
     <pre>
 img { float:left; }
@@ -395,9 +461,7 @@ img { float:left; }
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. Nam facilisis sem et volutpat molestie. Sed suscipit non enim in faucibus. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros. Ut euismod urna ut ex congue mollis sit amet ac leo. Donec enim sem, accumsan ut blandit sed, aliquet a eros.
     </p>
 
-    <aside>
-      <strong>Note:</strong> If the text is not long enough to clear the image, the parent paragraph's height will not extend past the image, as explained earlier above.
-    </aside>
+    <p>If the text is not long enough to clear the image, the parent paragraph's height will not extend past the image, as explained earlier above.</p>
 
     <p class="box">
       <img src="https://bit.ly/30mN9gj" alt="CSS 3 Logo" style="width:100px; height:100px; float:left;"> 
@@ -409,23 +473,22 @@ img { float:left; }
 
 
 
+
   <hr style="margin-top:3rem; clear:left;">
 
   <h2 id="flexbox">Flexbox</h2>
 
   <p>
     Flexbox is a one-dimensional layout system, either vertically or horizontally oriented.
-    The big advantage it has over float, is that the child elements (flex items) of a flex system (flex container)
+    The big advantage it has over float, is that the child elements (flex items) of a flex element (flex container)
     can automatically shrink and grow, which allows you to write less position-specific code, 
-    and flexbox will do the calculations.
+    and flexbox will do the calculations, even when setting gaps.
   </p>
 
-  <p>Take our demo's starting parts:</p>
+  <p>Take our demo's starting parts, and apply Flexbox to the parent wrapper:</p>
 
   <pre>
-.flex { display:flex; }
-
-&lt;div class="flex"&gt;
+&lt;div <strong>style="display:flex;"</strong>&gt;
   &lt;header&gt;Header&lt;/header&gt;
   &lt;div class="col1"&gt;Column 1&lt;/div&gt;
   &lt;div class="col2"&gt;Column 2&lt;/div&gt;
@@ -433,28 +496,31 @@ img { float:left; }
 &lt;/div&gt;
   </pre>
 
-  <div class="layout flex">
+  <div class="layout flex" style="min-height:1px;">
     <header>Header</header>
     <div class="col1">Column 1</div>
     <div class="col2">Column 2<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue.</div>
     <footer>Footer</footer>
   </div>
 
-  <p>With one CSS statement, we've solved 2 issues already that we found with <code>float</code>:</p>
+  <p>With one CSS statement, we've already solved 2 issues we found with <code>float</code>:</p>
   <ol>
-    <li>We can horizontally align elements without disrupting the other elements around it (no need to clear anything)</li>
+    <li>We can horizontally align elements without disrupting the other elements around them (no need to clear anything)</li>
     <li>
-      The column height is not tied to its content, but the rest of its sibling elements. Column 1's background fills the vertical space 
-      even if Column 2's content is taller.
+      The column height is not tied to its content, but that of the rest of its sibling elements. 
+      Column 1's background fills the vertical space even though its content is shorter than Column 2's.
     </li>
   </ol>
 
-  <p>However, we've introduced some new challenges that need to be solved, namely the header and footer are not full width and on their own lines.</p>
+  <p>
+    However, we've introduced some new challenges that need to be solved, 
+    namely the header and footer are not full width, evenly-spaced, or on their own lines.
+  </p>
 
   <p>By default, flex elements are displayed horizontally, but can easily be displayed vertically:</p>
 
   <pre>
-    .flex { display:flex; flex-direction:column; }
+    .flex { display:flex; <strong>flex-direction:column;</strong> }
   </pre>
 
   <div class="layout flex" style="flex-direction:column;">
@@ -468,8 +534,9 @@ img { float:left; }
 
   <p>
     For the horizontal demo above, a flexbox element tries to fit all content inside itself, much like an HTML table does with cells inside a row.
-    Much like a table, how it determines the column widths is an internal process. Why Column 1 isn't a little wider (and thus Column 2 a little shorter) 
-    so that <code>Column 1</code> is all on one line is a consequence of the algarithm. However, we can directly control how much space the columns take up.
+    It also uses its own rules to determine the column widths. Why Column 1 isn't a little wider (and thus Column 2 a little shorter) so that 
+    <code>Column 1</code> is displayed all on one line, is a consequence of the internal algarithm. 
+    However, we can explicitly control how much space the columns take up.
   </p>
 
   <p>
@@ -496,19 +563,22 @@ img { float:left; }
     <footer>Footer</footer>
   </div>
 
-  <p>This is handy, although when making layouts it is best to start with the mobile layout and add complexity as the device width increases.</p>
+  <p>
+    Great, although when making layouts it is best to start with the mobile layout first and add complexity as the device width increases.
+    In small device widths, it doesn't make sense to have 4 columns.
+  </p>
 
   <p>
     In this vein, we'll start by setting each flex items' space to the full width (100%). Mobile viewers will just see stacked boxes, just like 
     normal block elements. We use <code>flex-basis</code> to handle the item widths. flex-basis makes sure flex items get that value as a minimum size, before any remaining space is distributed. 
-    So if you set a flex-basis of 10 pixels, every flex item will have at least a width of 10px. We then set <code>flex-grow: 1;</code> to proportionally distribute the remaining space evenly 
-    to all flex items.
+    So if you set a flex-basis of 10 pixels, every flex item will have at least a width of 10px before the rest is distributed. 
+    Lastly, we set <code>flex-grow: 1;</code> to proportionally distribute the remaining space evenly to all flex items.
   </p>
 
   <p>
     You can test different proportial values yourself by inspecting the demo and changing the flex-basis to a non-100% value, like <code>flex-basis: 10px;</code>.
     Then pick one of the child flex items and set only its flex-grow value to 2: <code>flex-grow: 2;</code> This will proportionally scale that one element 
-    twice that as the other items.
+    twice as much as the others.
   </p>
 
   <pre>
@@ -523,11 +593,13 @@ img { float:left; }
     <footer>Footer</footer>
   </div>
 
-  <p>These next steps would then be added in media queries that affect larger device widths.</p>
+  <aside>
+    <p>The remaining steps would then be added in media queries, representing device widths that can handle columns.</p>
+  </aside>
 
   <p>
-    Column 1 and Column 2 don't need to be 100% wide, so we remove their flex-basis, and the align as intended horizontally.
-    Note the column height stretches despite the content length difference.
+    Column 1 and Column 2 don't need to be 100% wide, so we remove their flex-basis, and they naturally align horizontally.
+    Note the column height still stretches despite the content length difference.
   </p>  
 
   <pre>
@@ -544,15 +616,16 @@ img { float:left; }
   </div>
   
   <p>
-    The final item to tackle is the gap spacing between the flex items. Unfortunately, like the float system, we need to manually apply gaps to elements with margins.
-    However, it is less problematic since we don't have to calc the width difference.
+    The final item is to add the gap spacing between the elements. 
+    Unfortunately, like the float system, we need to manually apply gaps to elements with margins.
+    However, it is less problematic, since we don't have to calc the width differences (no <code>calc()</code>).
   </p>
 
   <pre>
 .flex { display:flex; flex-wrap:wrap; }
 .flex > * { flex-grow:1; flex-basis:100%; }
-.col1, .col2 { margin:1rem 0; flex-basis:0; }
-.col2 { margin-left:1rem; }
+.col1, .col2 { <strong>margin:1rem 0;</strong> flex-basis:0; }
+.col2 { <strong>margin-left:1rem;</strong> }
   </pre>
 
   <div class="layout flex flex-wrap flex-100">
@@ -565,10 +638,12 @@ img { float:left; }
   <p>
     Perfect! We achieved the same result as float, with a lot less headache. 
     We didn't need to change the columns' box-model, or wrap them in a parent wrapper, and we solved for differences in column content height.
-    However, we did have to wrap the content to new lines, and we had to directly tell how each child element behaved.
   </p>
+  <p>However, we did have to manually wrap the content to new lines, and had to directly tell how each child element behaved.</p>
 
   <p>The newest CSS layout system, <strong>Grid</strong>, allows for two-dimensional layouts, which makes it even easier to define how child items behave.</p>
+
+
 
 
   
@@ -577,25 +652,32 @@ img { float:left; }
   <h2 id="grid">Grid</h2>
 
   <p>
-    The newest CSS-layout system, CSS Grid Layout, is the recommended system to use for page layout. Where Flexbox was a one-dimensional system, 
-    where you could create a psuedo, two-dimensional layout, Grid handles it by default. In terms of how it handles layout, it is closer to 
-    an HTML table, but without the limations and preset behavior. Grid also shares some syntax with Flexbox, mostly around child item alignment and 
-    justification, so there will be some shared language between the two systems.
+    The newest CSS-layout system, <strong>CSS Grid Layout</strong>, is the recommended system to use for page layout. Where Flexbox was a one-dimensional system, 
+    where you could create a psuedo, two-dimensional layout with line-wrapping, Grid handles it by default.
+  </p>
+
+  <aside>
+    <p>
+      <strong>Note:</strong> This isn't to say Flexbox is obsolete &ndash; far from it. Typically, you use Grid 
+      to define the page's major content areas and their relationships (layout), 
+      and then use Flexbox to handle content alignment within those content areas, just like
+      with HTML tables (<code>&lt;table&gt;</code>).
+    </p>
+  </aside>
+  
+  <p>
+    In terms handling layout, Grid is closer to an HTML table, but without the latter's limations and preset, presentational behavior. 
+    Syntactically, Grid is closer to Flexbox, and also shares some syntax, mostly around child-item alignment.
   </p>
 
   <p>
-    At its simplest, a grid as a 2D plane of lines (rows and columns) used to line up various box containers. 
+    At its simplest, a grid as a two-dimensional plane of lines (rows and columns), used to line up various box containers. 
   </p>
 
-  <p>
-    Like the Float and Flexbox sections, we start with our layout element and child block elements. Also like Flexbox, 
-    we apply a display value to tell the device how to render this content: <code>display: grid;</code>
-  </p>
+  <p>Take our demo's starting parts, and apply Grid to the parent wrapper:</p>
 
   <pre>
-.grid { display:grid; }
-
-&lt;div class="grid"&gt;
+&lt;div <strong>style="display:grid;"</strong>&gt;
   &lt;header&gt;Header&lt;/header&gt;
   &lt;div class="col1"&gt;Column 1&lt;/div&gt;
   &lt;div class="col2"&gt;Column 2&lt;/div&gt;
@@ -603,20 +685,20 @@ img { float:left; }
 &lt;/div&gt;
   </pre>
 
-  <div class="layout grid">
-    <header>Header</header>
+  <div class="layout grid" style="min-height:300px;">
+    <header>Header<br>new line</header>
     <div class="col1">Column 1</div>
     <div class="col2">Column 2</div>
     <footer>Footer</footer>
   </div>
 
   <p>
-    We haven't done anything else but to tell the device to anticipate a grid layout, 
-    but you can see in the above demo that each element has the same height, which together fills the total height of the outer grid,
-    since we applied a height to the parent grid (<code>min-height:300px;</code>).
-
-    If we didn't set a height, the elements appear as normal, stacked block elements:
+    We haven't done anything else but tell the device to anticipate a grid layout.
+    But we gain the default benefit of each element's height increasing evenly to fill the total height of the outer grid, 
+    which has a minimum-height set that exceeds the content's natural height (<code>min-height:300px;</code>).
   </p>
+
+  <p>If we didn't set a minimum-height, the elements appear as normal, stacked, block elements:</p>
 
   <div class="layout grid" style="min-height:0;">
     <header>Header<br>new line</header>
@@ -626,13 +708,16 @@ img { float:left; }
   </div>
 
   <p>
-    Like Flexbox, Grid will fill the layout space by default. Unlike flex, though, it doesn't have a default orientation 
-    (recall Flexbox horizontally aligned items in a row, which you then had to wrap). This lets this basic state act as 
-    the mobile-first state. We would then add layout items to various media queries as the device width increases.
+    Like Flexbox, Grid will fill the layout space, but unlike flex, it starts in a column orientation instead of a row.
+    This lets this basic state act as the mobile-first state. 
+    We would then add layout items to various media queries as the device width increases.
+    This gets around having to set everything to <code>flex-basis: 100%;</code> in the Flexbox example, 
+    just to come back and override it for the horizontal columns.
   </p>
 
   <p>
-    Since Grid is two-dimensional, we can also set row and column defaults without needing to change orientation.
+    Since Grid is two-dimensional, we can also set row and column defaults at the same time, 
+    instead of picking between one or the other like Flexbox (<code>flex-direction: row;</code> or <code>flex-direction: column;</code>)
   </p>
 
   <p>
@@ -670,37 +755,47 @@ img { float:left; }
     <div class="box">Product</div>
   </div>
 
-  <aside>
-    <strong>Note:</strong> <code>repeat()</code> is just a convenience method to do the same thing x number of times. 
-    It isn't necessary. We can write <code>grid-template-columns:repeat(4, 1fr);</code> as <code>grid-template-columns:1fr 1fr 1fr 1fr;</code>.
-    Each space-separated value represents one column (or row for grid-template-rows). The <code>fr</code> unit stands for fraction, and is 
-    analagous to the unit-less flex-grow value from the Flexbox section. In this case, having all 4 columns have a value of 1fr, means 
-    all 4 columns are evenly spaced. If we had added it as <code>grid-template-columns:1fr 2fr 1fr 1fr;</code>, we would still have 
-    4 columns, but the second one would have twice the width as the others. We could also mix fractional values with fixed values, 
-    like <code>grid-template-columns:200px 1fr;</code>, which would make the first column have a fixed width and the second column 
-    fill the remaining horizontal space. This is handy if making a sidebar next to your main content area.
+  <aside style="margin-top:3rem;">
+    <p>
+      <strong>Note:</strong> <code>repeat()</code> is just a convenience method to do the same thing x number of times. 
+      It isn't necessary. We can write <code>grid-template-columns:repeat(4, 1fr);</code> as <code>grid-template-columns:1fr 1fr 1fr 1fr;</code>.
+      Each space-separated value represents one column (or row for grid-template-rows). The <code>fr</code> unit stands for fractional, and is 
+      analagous to the unit-less flex-grow value from the Flexbox section. 
+    </p>
+    <p>
+      In this case, having all 4 columns have a value of 1fr, means all 4 columns are evenly spaced. 
+      If we had added it as <code>grid-template-columns:1fr 2fr 1fr 1fr;</code>, we would still have 
+      4 columns, but the second one would have twice the width as the others. We could also mix fractional values with fixed values, 
+      like <code>grid-template-columns:200px 1fr;</code>, which would make the first column have a fixed width and the second column 
+      fill the remaining horizontal space. This is handy when making a sidebar next to your main content area.
+    </p>
   </aside>
 
   <aside>
-    <strong>Note:</strong> Also, for the <code>h2</code> headlines, we used the <code>grid-column</code> property. 
-    This is a shorthand property that combines <code>grid-column-start</code> and <code>grid-column-end</code>. 
-    In the intro to this section, we noted that a grid is just a 2D plane of lines (rows and columns). This line nature 
-    is at play when using <code>grid-column</code>. The <code>/</code> character is just a separator, separating the start 
-    and end position of the targeted element. For the <code>h2</code> tags, we want them to span the full width, so the start
-    value is the # of vertical grid lines to start the width from (in our case the left edge, so <code>1</code>) and the last # 
-    is where it should end. We want it to end on the right edge. Instead of setting a fixed offset value of 4, for the number of columns, 
-    we use <code>-1</code>, which starts counting from the right edge instead of the left. This has the added benefit that columns 
-    may be added or removed over time, but the h2 tag will always span the full width.
+    <p>
+      <strong>Note:</strong> Also, for the <code>h2</code> headlines, we used the <code>grid-column</code> property. 
+      This is a shorthand property that combines <code>grid-column-start</code> and <code>grid-column-end</code>. 
+      In the intro to this section, we noted that a grid is just a 2D plane of lines (rows and columns). This line nature 
+      is at play when using <code>grid-column</code>. The <code>/</code> character is just a separator, separating the start 
+      and end position of the targeted element. 
+    </p>
+    <p>
+      For the <code>h2</code> tags, we want them to span the full width, so the start
+      value is the # of vertical grid lines to start the width from (in our case the left edge, so <code>1</code>) and the last # 
+      is where it should end. We want it to end on the right edge. Instead of setting a fixed offset value of 5, for 1 plus the number of columns, 
+      we use <code>-1</code>, which starts counting from the right edge instead of the left. This has the added benefit that columns 
+      may be added or removed over time, but the h2 tag will always span the full width.
+    </p>
   </aside>
   
   <p>So for our layout demo, we just need to define the default as 2 evenly-spaced columns, and then override the header and footer:</p>
 
   <pre>
 .grid { display:grid: grid-template-columns:repeat(2, 1fr); }
-header, footer { grid-column: 1 / -1; }
+<strong>header, footer { grid-column: 1 / -1; }</strong>
   </pre>
 
-  <div class="layout grid" style="grid-template-columns:repeat(2, 1fr);">
+  <div class="layout grid" style="min-height:1px; grid-template-columns:repeat(2, 1fr);">
     <header style="grid-column: 1 / -1;">Header</header>
     <div class="col1">Column 1</div>
     <div class="col2">Column 2</div>
@@ -710,14 +805,14 @@ header, footer { grid-column: 1 / -1; }
   <p>And then for the spacing gaps, we just have to define how both a row and column gap behaves width <code>grid-row-gap</code> and <code>grid-column-gap</code>:</p>
 
   <pre>
-.grid { display:grid: grid-template-columns:repeat(2, 1fr); grid-row-gap:1rem; grid-column-gap:1rem; }
+.grid { display:grid: grid-template-columns:repeat(2, 1fr); <strong>grid-row-gap:1rem; grid-column-gap:1rem;</strong> }
 header, footer { grid-column: 1 / -1; }
   </pre>
 
   <div class="layout grid" style="grid-template-columns:repeat(2, 1fr); grid-row-gap:1rem; grid-column-gap:1rem;">
     <header style="grid-column: 1 / -1;">Header</header>
     <div class="col1">Column 1</div>
-    <div class="col2">Column 2</div>
+    <div class="col2">Column 2<br>Additional<br>lines</div>
     <footer style="grid-column: 1 / -1;">Footer</footer>
   </div>
 

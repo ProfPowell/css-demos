@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>05:Position</title>
+  <title>06: Position</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="shared/shared.css">
 </head>
@@ -15,24 +15,52 @@
   </style>
 
   
-  <h1>05 - Position</h1>
+  <h1>06 - Position</h1>
 
   <p>To position elements at an offset to their natural position in the document flow, we use the CSS properties:</p>
-  <ul>
+  <ul class="compact">
     <li><code>top</code></li>
     <li><code>bottom</code></li>
     <li><code>left</code></li>
     <li><code>right</code></li>
   </ul>
 
+  <p>
+    They must be used in conjuction with a specified <code>position</code> type, since the default 
+    element position (<code>static</code>) does not honor these offset values. Simply adding <code>top: 10px;</code> 
+    to a statically-positioned element will have no visual effect.
+  </p>
+
+  <p>
+    Also, it is important to know that these 4 properties (by themselves) simply offset the element presentationally (visual position on screen). 
+    Only the value of its <code>position</code> controls how the content around it behaves.
+  </p>
+
+  <p>For both relative and absolutely-positioned elements, a value of <code>top: 10px;</code> will offset the element vertically by 10 pixels.</p>
+
+  <p>
+    However, for <em>relative</em> positioned elements, the content below it will not change its location. It is spaced according to the 
+    original (non-offset) position of the relative element.
+  </p>
+  <p>
+    For <em>absolute</em> positioned elements, and for the purposes of flowing the content below it, the device treats 
+    the element as if it didn't belong in its original (non-offset) position to begin with. In this regard, the content 
+    after the element would shift up vertically, to fill the void the element's height filled up.
+  </p>
+
+  <p>These, and further positioning differences, are highlighted with demos below.</p>
+
+  <p>There are <strong>5</strong> <code>position</code> variants of note:</p>
+
   <hr>
 
   <h2>position:static</h2>
 
   <p>
-    By default, block elements have a position of <strong>static</strong>. This indicates it is in the natural flow of the document,
+    By default, block elements have a position of <strong>static</strong>. This indicates it is in the natural flow of the document content,
     and <strong>unavailable</strong> for positioning. This is important. The above position properties will not affect static elements.
-    For example, listed below, you'll see the position key/value set inline to each box. However, the boxes haven't changed their position.
+    For example, the below boxes have <code>top</code> and <code>left</code> values applied inline. 
+    However, the boxes haven't changed their offset position on screen.
   </p>
 
   <div class="box" style="top:10px;">Box 1 - <code>top:10px;</code></div>
@@ -50,18 +78,23 @@
   </p>
 
   <div class="wrap">
-    <div class="box" style="position:relative; top:-10px;">Box 1 - <code>position:relative; top:-10px;</code></div>
+    <div class="box" style="position:relative; top:-15px;">Box 1 - <code>position:relative; top:-15px;</code></div>
     <div class="box" style="position:relative; left:20px;">Box 2 - <code>position:relative; left:20px;</code></div>
     <div class="box" style="top:40px; left:20px;">Box 3 - <code>position:static; top:40px; left:20px;</code> - <strong>No Change!</strong></div>
   </div>
 
-  <p>
-    <strong>Note:</strong> Take a look at <code>Box 2</code>. Its width is too long for the containing box and part of it extends past the red-border boundary. 
-    Its important to remember with the fixed-positioning values of <code>top, bottom, left, and right</code>, you are just offsetting the element. 
-    You aren't actually changing its existing dimensions or its position in the document flow. As far as the document/device is conconcerned, the element still 
-    occupies the position it did before you offset it. This further supported by looking at <code>Box 3</code>. It is spaced according to the original position of
-    Box 2, not its offset position. 
-  </p>
+  <p><strong>Note:</strong> Take a look at <code>Box 2</code>.</p>
+  <ol>
+    <li>It looks like it gained spacing above it, since it is not adjacent to Box 1, but it did not. 
+    It only was offset horizontally due to its directly-applied value of <code>left:20px;</code>. 
+    The vertical separation was caused by the <code>top:-15px</code> on Box 1, which was presentationally 
+    offset by 15 pixels. If you imagine Box 1 not being offset, you'll see that its original, non-offset, 
+    position would be adjacent to the top of Box 2.</li>
+    <li>Its width is too wide for the containing box, and part of it extends past the red-border boundary. 
+    Because it is just offset, and not moved 'in flow', like <code>margin</code> does, it doesn't know 
+    it has pierced the parent's edge, and cannot recalculate its width. Its width <em>is</em> the parent's, 
+    you just translated it horizontally.
+  </ol>
 
   <hr>
 
@@ -72,7 +105,7 @@
     If none is found, the top-left of the document is used (the top-left, or (0,0), of scroll-y position 0).
   </p>
 
-  <p>Take the same example before, but set the first box to absolute positioning:</p>
+  <p>Take the same example from before, but set <code>Box 1</code> box to absolute positioning:</p>
 
   <div class="wrap">
     <div class="box" style="position:absolute; top:0; right:0;";>Box 1 - Oops - <code>position:absolute; top:0; right:0;</code></div>
@@ -80,11 +113,11 @@
     <div class="box">Box 3</div>
   </div>
 
-  <p>What happended to <em>Box 1</em>! Check the upper-right corner of your device and you should see the box.</p>
+  <p>What happended to <em>Box 1</em>! Scroll to the top of the page, and check the upper-right corner. You should see the box.</p>
 
   <p>
-    This absolutely-positioned element's nearest relative parent is the document itself, 
-    so setting its position to top and right values of zero places at the top of the document (page)
+    This absolutely-positioned element's nearest relative parent is the document itself, not the parent wrapper box (which is statically-positioned by default).
+    So setting its position to <code>top:0; right:0;</code> places it at the top-right of the document (page).
   </p>
 
   <p>
@@ -97,7 +130,7 @@
 
   <p>
     As we saw in the <code>position:relative</code> section, setting a block container to relative positioning uses its (0,0) point as the offset reference,
-    not the document. This is adventageous in our example. By setting the red-border wrapper's position to relative, the absolutely-positioned Box 1 is now positioned 
+    not the document. This is adventageous. By setting the red-border parent wrapper's position to relative, the absolutely-positioned Box 1 is now positioned 
     relative to its parent and not the document itself.
   </p>
 
@@ -108,12 +141,12 @@
   </div>
 
   <p>
-    Wait, where is it? Its not at the top of the page, but you don't see it in the the above wrapper either. 
+    Wait, where is it? Its not at the top of the page, but you don't see it in the the above demo either. 
     If you inspect the above code in Dev Tools, you'll see Box 1 is at the top-right of the wrapper, and not the document, as expected.
     This is because both Box 1 and Box 2 are competing for the same space <em>and</em> both have position set. This is an important distinction.
   </p>
 
-  <p>If Box 2 was still position static, Box 1 would have visual priority, shown below:</p>
+  <p>If Box 2 was still statically positioned, Box 1 would have visual priority, as shown below:</p>
 
   <div class="wrap" style="position:relative;">
     <div class="box" style="position:absolute; top:0; right:0; background:indianred;">Box 1 - Oops - <code style="color:#fff;">position:absolute; top:0; right:0;</code></div>
@@ -124,7 +157,7 @@
   <p>Box 2 has no position set, so Box 1 wins out.</p>
 
   <p>
-    However, since Box 2 does have position set, the browser doesn't know which one gets priority, so it defaults to the last element in the document.
+    However, since Box 2 does have position set, the browser doesn't know which one gets priority, so it defaults to the last element defined in the document tree.
     In this case, Box 2 wins out.
   </p>
 
@@ -136,10 +169,8 @@
     <div class="box">Box 3</div>
   </div>
 
-  <p>
-    But you may not always be able to move markup around after it is built, or it might ruin other breakpoints, etc.
-    Instead, you can tell the browser to give Box 1 priority, even though it doesn't deserve it with the <code>z-index</code> property, by giving it a higher value:
-  </p>
+  <p>But you may not always be able to move markup around after it is built, or it might ruin other breakpoints, etc.</p>
+  <p>Instead, you can tell the browser to give Box 1 priority, even though it doesn't deserve it based on its document order, with the <code>z-index</code> property, by giving it a higher value:</p>
 
   <div class="wrap" style="position:relative;">
     <div class="box" style="z-index:1; position:absolute; top:0; right:0; background:indianred;">Box 1 - <code style="color:#fff;">z-index:1; position:absolute; top:0; right:0;</code></div>
@@ -148,7 +179,7 @@
   </div>
 
   <p>
-    If this seems like a lot to manage, it is. Imagine a whole document mis-managed with positioning, offsets and arbitrary z-index values.
+    If this seems like a lot to manage, it is. Imagine a whole document mis-managed with positioning, offsets, and arbitrary z-index values.
     Instead, use positioning and z-index only when necessary to achieve a specific goal. In most cases, you can get away with margin and padding instead.
   </p>
 
@@ -161,15 +192,21 @@
     They also stay in the same screen location, even if the page is scrolled!
   </p>
 
-  <p>Find this element on screen:</p>
+  <p>Find this element on screen at the top-right:</p>
   <div class="box" style="background:gold;">Fixed Position - <code>position:fixed; top:50px; right:0;</code></div>
 
-  <p>It is not constrained here to its relative-positioned parent:</p>
+  <p>It is not constrained to its parent's location below, despite the parent being set to relative position:</p>
   <div class="wrap" style="position:relative;">
     <div class="box" style="position:fixed; top:50px; right:0; background:gold;">Fixed Position - <code>position:fixed; top:50px; right:0;</code></div>
   </div>
 
   <p>Instead, it is fixed relative to the document itself.</p>
+
+  <aside>
+    <p><strong>Note:</strong> You may also notice as you scroll the page, the fixed-positioned element goes behind the red boxes from the previous section. 
+    That <code>z-index</code> moves it above all other elements on lower priority!</p>
+    <p>Z-index is discussed in further detail on the <a href="07_z-index.html">z-index page</a>.</p>
+  </aside>
 
   <hr>
 
@@ -179,7 +216,7 @@
     There is a sort of in-between state between relative/absolute elements (don't stay on screen when scrolled),
     and fixed elements (do stay on screen when scrolled). With <em>sticky</em> positioning, 
     the element is treated as relative (in the normal document flow) until the page's scroll position reaches this elements location. 
-    Then as the page further scrolls down, this sticky element behaves like a fixed-positioned element and stays on screen.
+    Then as the page scrolls further down, this sticky element behaves like a fixed-positioned element and stays on screen.
   </p>
 
   <p>This element sticks when reached:</p>

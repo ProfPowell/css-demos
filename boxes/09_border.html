@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>08: Border</title>
+  <title>09: Border</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="shared/shared.css">
 </head>
@@ -16,12 +16,12 @@
   </style>
 
   
-  <h1>08 - Border</h1>
+  <h1>09 - Border</h1>
 
   <p>
-    Borders are largely presentational, added via CSS. As you will see in the Box Model step, 
+    Box borders are largely presentational, added via CSS. As you will see in the <a href="10_box-model.html">Box Model</a> example, 
     borders directly add to the width and height of the box. If you add a one-pixel border to the box,
-    you have increased the box's width and height by 2.
+    you have increased the box's width and height by 2 (one pixel for each opposite side).
   </p>
 
   <p>To add borders to elements, we use the CSS property: <strong>border</strong>.</p>
@@ -29,7 +29,7 @@
     It has <strong>4</strong> options, representing each side of the box:<br>
     <small>(In parantheses are the 'logical properties' margin equavalents. For more information, watch this segment on <a href="https://www.youtube.com/watch?v=-oyeaIirVC0&t=578s">Logical Properties</a> from the Google Dev Summit )</small>
   </p>
-  <ul>
+  <ul class="compact">
     <li><code>border-top</code> <small>( <code>border-block-start</code> )</small></li>
     <li><code>border-right</code> <small>( <code>border-inline-end</code> )</small></li>
     <li><code>border-bottom</code> <small>( <code>border-block-end</code> )</small></li>
@@ -55,9 +55,9 @@
     }
   </pre>
 
-  <div class="box">border:2px solid red;</div>
+  <div class="box">border: 2px solid red;</div>
 
-  <p><strong>Note:</strong> <code>2px solid red</code> is shorthand itself! It combines width, line style, and color.</p>
+  <p><strong>Note:</strong> <code>2px solid red</code> is shorthand itself! It combines <code>border-width</code>, <code>border-style</code>, and <code>border-color</code>.</p>
 
   <hr>
 
@@ -139,7 +139,6 @@
       <td><div class="box" style="border-style:ridge;">ridge</div></td>
       <td><div class="box" style="border-style:inset;">inset</div></td>
       <td><div class="box" style="border-style:outset;">outset</div></td>
-      <td></td>
     </tr>
   </table>
   
@@ -177,7 +176,7 @@
     </tr>
   </table>
 
-  <p>One interesting interaction with color is you can set individual sides to transparent:</p>
+  <p>One interesting interaction with color is you can set individual sides to be transparent (top and bottom):</p>
 
   <div class="box none" style="background:#f3f3f3; border-color:transparent purple;"></div>
 
@@ -194,11 +193,11 @@
 
   <p>Notice how the content jumps, since there is now a border.</p>
 
-  <h3>Adding a border on hover frome a transparent border base.</h3>
+  <h3>Adding a border on hover from a transparent border base.</h3>
 
   <pre>
 .box { border:1px solid transparent; }
-.box:hover { border:1px solid red; }    
+.box:hover { border-color:red; }    
   </pre>
 
   <div class="box box2 none">Hover over</div>
@@ -232,7 +231,7 @@
   <div style="border:8px solid transparent; border-color:indianred orange green blue;">Normal box with width and height</div>
 
   <p>
-    Therefore, when a container has no content, its borders form a rectangle (block) or square (inline), or in other words 4 triangles. 
+    Therefore, when a container has no content, its borders form a rectangle (block) or square (inline), or in other words, <strong>4 triangles</strong>. 
     You can then add a border to just the side you want to orientate your arrow:
   </p>
 
