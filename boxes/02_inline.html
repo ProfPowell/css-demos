@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>02: Inline Elements</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="shared/shared.css">
+</head>
+
+<body>
+
+  <h1>02 - Inline Elements</h1>
+
+  
+  <span class="inline">Inline 1</span>
+  <span class="inline">Inline 2</span>
+  <span class="inline">Inline 3</span>
+
+  <hr>
+
+  <p>
+    Inline elements are boxes, like block elements, but their default behavior is to occupy and define only the space of their child content, 
+    not the whole vertical and horizontal 'row' space outside of it.
+  </p>
+
+  <p>
+    While block elements can contain other block and inline elements, inline elements should only contain other inline elements. 
+    A great example is a text link. The <code>&lt;a&gt;</code> tag's semantics informs the device that this element is interactable, 
+    and when clicked, the device should read its action attribute and change the page to the new attribute value (url). 
+  </p>
+
+  <p>
+    Typically, a link is found inside a paragraph surrounded by other text and links. If a link was a block element, then the text 
+    before and after it would be placed on different lines. 
+    Instead, since it is an inline element, it retains its normal flow in the paragraph's text, yet offers 
+    a wrapper box to provide semantics and to hook onto for CSS and JavaScript.
+  </p>
+
+  <h3>Link element as inline</h3>
+
+  <p class="box">
+    Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing elit</a>. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. 
+  </p>
+
+  <h3>Link element as block</h3>
+
+  <p class="box">
+    Lorem ipsum dolor sit amet, <a href="#" class="block">consectetur adipiscing elit</a>. Phasellus congue dui auctor libero luctus, aliquam vestibulum nisi sollicitudin. Vestibulum scelerisque felis at suscipit congue. 
+  </p>
+
+  <p>
+    The same applies to the inline element's child elements. They should also be inline for the same reasons.
+    Take a typical text link with some of its text emphasized:
+  </p>
+
+  <a href="#" class="border">Phasellus congue dui <strong>auctor libero luctus</strong>, aliquam vestibulum nisi sollicitudin</a>
+
+  <p>
+    If it contained block elements, it wouldn't flow as intended:
+  </p>
+
+  <a href="#" class="border">Phasellus congue dui <strong class="block">auctor libero luctus</strong>, aliquam vestibulum nisi sollicitudin</a>
+
+  <p class="cta">(Notice the link's border. It does not wrap around all of the content like the first example.)</p>
+
+  <p>
+    Finally, links are a great way to reinforce the difference in behavior between block and inline.
+    Take either link example from above. Move your mouse over the area to the right of the text not inside
+    the dashed border.
+    Your mouse cursor icon will not change, and clicking will not active the link. Remember, 
+    inline elements just occupy the space of their content.
+  </p>
+
+  <p>
+    If we make the outer <code>&lt;a&gt;</code> tag a block element, you'll notice that the entire 
+    horizontal space is filled with the element's dimensions, so clicking in the empty whitespace will 
+    activate the text link.
+  </p>
+
+  <a href="#" class="border block">Phasellus congue dui <strong>auctor libero luctus</strong>, aliquam vestibulum nisi sollicitudin</a>
+
+  <aside>
+    <p><strong>Note:</strong> While you can probably envision instances where you might want to make a block element clickable, 
+    it is important to know this historical relationship between block and inline. Most modern browsers tend to correctly interpret 
+    block elements inside inline elements, however from time-to-time rendering issues do crop up. 
+    </p>
+
+    <p>
+      In general, it is best to use CSS to apply block behavior to inline elements inside other inline elements 
+      than actually adding a semantic block element inside a parent inline element.
+    </p>
+
+    <p>Therefore it usually more appropriate to do this:</p>
+    <pre>
+&lt;div&gt;
+  &lt;a&gt;...&lt;/a&gt;
+&lt;/div&gt;
+    </pre>
+
+    <p>instead of this:</p>
+    <pre>
+&lt;a&gt;
+  &lt;div&gt;...&lt;/div&gt;
+&lt;/a&gt;
+    </pre>
+  </aside>
+
+  <p>
+    The most common inline elements are: 
+  </p>
+  <ul>
+    <li>
+      <code>&lt;span&gt;</code> tags are the generic inline equivalent to the block <code>&lt;div&gt;</code>. 
+      It provides no semantic value. You cannot infer the inner content's meaning from the tag itsef.
+    </li>
+    <li>
+      <code>&lt;em&gt;</code> tags convey <em>normal emphasis</em>. Devices typically render the containing text as <em>italic</em>, 
+      but it is important to remember the semantic value the tag provides (emphasis), over its presentational interpretation (italic). The device 
+      could easily choose to render these elements as underlined text in the future. However, its semantic value wouldn't change.
+    </li>
+    <li>
+      <code>&lt;strong&gt;</code> tags convey <em>stronger emphasis</em>. Devices typically render the containing text as <strong>bold</strong>, 
+      but it is important to remember the semantic value the tag provides (stronger emphasis than a <code>&lt;em&gt; tag</code>), over its presentational interpretation (bold). 
+      Like the <code>em</code> tag, the device could easily choose to render these elements as underlined text in the future. However, its semantic value wouldn't change.
+    </li>
+    <li>
+      <code>&lt;a&gt;</code> tags create hyperlinks to other pages or sites. It expects an action attribute, <code>href="https://www.google.com"</code>, 
+      whose value is a valid url, or anchor tag:<br> <code>&lt;a href="https://www.google.com"&gt;...&lt;/a&gt;</code>
+    </li>
+  </ul>
+
+  <aside>
+    <p><strong>Notes:</strong> Devices tend to add their own styling to specific tags. Because this can be inconsistent across different browsers, you shouldn't rely on this alone. If the styling is important, it should be applied with CSS.</p>
+    <p>
+      Make sure you use the semantic tag instead of its older (deprecated) presentational variant, where applicable.
+      So <code>&lt;strong&gt;</code> instead of <code>&lt;b&gt;</code>, 
+      and <code>&lt;em&gt;</code> instead of <code>&lt;i&gt;</code>.
+    </p>
+    <p>With CSS, you can turn any element into an inline element with the display property: <code>display: inline;</code></p>
+  </aside>
+
+</body>
+</html>

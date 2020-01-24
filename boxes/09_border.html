@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>09: Border</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="shared/shared.css">
+</head>
+
+<body>
+
+  <style>
+    h3 { font-size:1.125rem; }
+    .wrap { border:1px solid indianred; background:lightgrey; }
+    .box { padding:10px; border:1px solid red; }
+  </style>
+
+  
+  <h1>09 - Border</h1>
+
+  <p>
+    Box borders are largely presentational, added via CSS. As you will see in the <a href="10_box-model.html">Box Model</a> example, 
+    borders directly add to the width and height of the box. If you add a one-pixel border to the box,
+    you have increased the box's width and height by 2 (one pixel for each opposite side).
+  </p>
+
+  <p>To add borders to elements, we use the CSS property: <strong>border</strong>.</p>
+  <p>
+    It has <strong>4</strong> options, representing each side of the box:<br>
+    <small>(In parantheses are the 'logical properties' margin equavalents. For more information, watch this segment on <a href="https://www.youtube.com/watch?v=-oyeaIirVC0&t=578s">Logical Properties</a> from the Google Dev Summit )</small>
+  </p>
+  <ul class="compact">
+    <li><code>border-top</code> <small>( <code>border-block-start</code> )</small></li>
+    <li><code>border-right</code> <small>( <code>border-inline-end</code> )</small></li>
+    <li><code>border-bottom</code> <small>( <code>border-block-end</code> )</small></li>
+    <li><code>border-left</code> <small>( <code>border-inline-start</code> )</small></li>
+  </ul>
+
+  <p>For example, this adds a 2 pixel, red border:</p>
+
+  <pre>
+    .box {
+      border-top: 2px solid red;
+      border-right: 2px solid red;
+      border-bottom: 2px solid red;
+      border-left: 2px solid red;
+    }
+  </pre>
+
+  <p>Or the shorthand:</p>
+
+  <pre>
+    .box {
+      border: 2px solid red;
+    }
+  </pre>
+
+  <div class="box">border: 2px solid red;</div>
+
+  <p><strong>Note:</strong> <code>2px solid red</code> is shorthand itself! It combines <code>border-width</code>, <code>border-style</code>, and <code>border-color</code>.</p>
+
+  <hr>
+
+  <h2>Width</h2>
+
+  <p>To set the width, or thickness of the border line, use <code>border-width</code>.</p>
+
+  <p>You can set all widths individually using the longhand format:</p>
+
+  <pre>
+    .box {
+      border-top-width: 3px;
+      border-right-width: 1px;
+      border-bottom-width: 7px;
+      border-left-width: 5px;
+    }
+  </pre>
+
+  <p>Or shorthand:</p>
+
+  <pre>
+    .box {
+      border-width: 3px 1px 7px 5px;
+    }
+  </pre>
+
+  <div class="box" style="border-width: 3px 1px 7px 5px;">border-width: 2px 1px 3px 5px;</div>
+
+  <p>A neat trick is to set a baseline border value, then separately set the border widths after it in the cascade:</p>
+
+  <pre>
+    .box {
+      border: 1px solid red;
+      border-width: 6px 2px;
+    }
+    /* For demo purposes. Don't chain classes unless absolutely necessary! */
+    .box.box1 {
+      border-right-width: 4px;
+    }
+    .box.box2 {
+      border-width: 14px 1px;
+    }
+  </pre>
+
+  <style>
+    .width-demo + .width-demo { margin-top:.625rem; }
+  </style>
+  <div class="box width-demo" style="border-width: 6px 2px;">border-width: 6px 2px;</div>
+  <div class="box width-demo" style="border-right-width: 8px;">border-right-width: 8px;</div>
+  <div class="box width-demo" style="border-width: 14px 1px;">border-width: 14px 1px;</div>
+  
+  <hr>
+
+  <h2>Style</h2>
+
+  <p>To change the style of the border line, use <strong>border-style</strong>:</p>
+
+  <pre>
+    .box {
+      border-style: dashed;
+      border-style: dashed dotted;
+      border-style: dashed dotted solid;
+      border-style: dashed dotted solid double;
+    }
+  </pre>
+
+  <style>
+    .border-style .box { background:none; border-width:3px; }
+  </style>
+  <table class="table-1of4 border-style">
+    <tr>
+      <td><div class="box" style="border-style:solid;">solid</div></td>
+      <td><div class="box" style="border-style:dotted;">dotted</div></td>
+      <td><div class="box" style="border-style:dashed;">dashed</div></td>
+      <td><div class="box" style="border-style:double;">double</div></td>
+    </tr>
+    <tr>
+      <td><div class="box" style="border-style:groove;">groove</div></td>
+      <td><div class="box" style="border-style:ridge;">ridge</div></td>
+      <td><div class="box" style="border-style:inset;">inset</div></td>
+      <td><div class="box" style="border-style:outset;">outset</div></td>
+    </tr>
+  </table>
+  
+  <hr>
+
+  <h2>Color</h2>
+
+  <p>To change the color of the border line, use <strong>border-color</strong>:</p>
+  
+  <pre>
+    .box {
+      border-color: red;
+      border-color: red purple;
+      border-color: red purple green;
+      border-color: red purple green blue;
+    }
+  </pre>
+
+  <style>
+    .none { background:#f3f3f3; }
+    .border-color .box { background:none; border-width:3px; }
+
+    .box1 { border:0; }
+    .box1:hover { border:1px solid red; }
+
+    .box2 { border:1px solid transparent; }
+    .box2:hover { border:1px solid red; }
+  </style>
+  <table class="table-1of4 border-color">
+    <tr>
+      <td><div class="box" style="border-color:purple;">purple</div></td>
+      <td><div class="box" style="border-color:green;">green</div></td>
+      <td><div class="box" style="border-color:blue orange;">blue orange</div></td>
+      <td><div class="box" style="border-color:orange yellow green blue;">orange yellow green blue</div></td>
+    </tr>
+  </table>
+
+  <p>One interesting interaction with color is you can set individual sides to be transparent (top and bottom):</p>
+
+  <div class="box none" style="background:#f3f3f3; border-color:transparent purple;"></div>
+
+  <p>The border will still take up the space in the document. This is great if you want to add a hover effect:</p>
+
+  <h3>Adding a border on hover when there wasn't one</h3>
+
+  <pre>
+.box { border:0; }
+.box:hover { border:1px solid red; }    
+  </pre>
+
+  <div class="box box1 none">Hover over</div>
+
+  <p>Notice how the content jumps, since there is now a border.</p>
+
+  <h3>Adding a border on hover from a transparent border base.</h3>
+
+  <pre>
+.box { border:1px solid transparent; }
+.box:hover { border-color:red; }    
+  </pre>
+
+  <div class="box box2 none">Hover over</div>
+
+  <p>Now the content doesn't shift, since the border width never changes, just the color.</p>
+
+  <hr>
+
+  <h2>Arrows</h2>
+
+  <p>A neat usage of transparent borders is to create an arrow out of CSS:</p>
+
+  <p>This uses some advanced CSS ideas, but the crux of it is setting all but one side's border to transparent:</p>
+
+  <pre>
+    .arrow { border:8px solid transparent; border-top-color:indianred; }
+    .arrow:hover { border-top-color:transparent; border-bottom-color:indianred; }
+  </pre>
+
+  <style>
+    .arrow { position:relative; }
+    .arrow:after { content:''; margin-left:10px; display:inline-block; border:8px solid transparent; border-top-color:indianred; transform:translateY(50%); }
+    .arrow:hover:after { border-top-color:transparent; border-bottom-color:indianred; transform:translateY(0); }
+  </style>
+  <span class="arrow">Hover over</span>
+
+  <p>---</p>
+
+  <p>When borders converge, they do so at 45&deg; angles:</p>
+
+  <div style="border:8px solid transparent; border-color:indianred orange green blue;">Normal box with width and height</div>
+
+  <p>
+    Therefore, when a container has no content, its borders form a rectangle (block) or square (inline), or in other words, <strong>4 triangles</strong>. 
+    You can then add a border to just the side you want to orientate your arrow:
+  </p>
+
+  <div style="border:8px solid transparent; border-color:indianred orange green blue;"></div>
+  
+  <div style="margin-top:.625rem; display:inline-block; border:8px solid transparent; border-color:indianred orange green blue;"></div>
+
+  <div style="margin-top:.625rem; display:inline-block; border:8px solid transparent; border-top-color:indianred;"></div>
+
+  <p>You don't have much control over the appearance of the arrow itself, but this is a CSS-only way to make an arrow.</p>
+
+</body>
+</html>

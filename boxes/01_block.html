@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>01: Block Elements</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="shared/shared.css">
+</head>
+
+<body>
+
+  <h1>01 - Block Elements</h1>
+
+  
+  <div class="box">Box 1</div>
+  <div class="box">Box 2</div>
+
+  <hr>
+
+  <p>
+    At their core, web pages are documents. You encode your content with specific rules (HTML tags) that tell devices how to interpret and render it. 
+    Like a normal document, you define a hierarchy structure (tree) of weighted headlines and content (paragraphs, lists, tables, etc.).
+  </p>
+
+  <h2>Block tags</h2>
+
+  <p>
+    The basic building blocks of a document are <strong>block</strong> elements. These tags create boxes, or blocks, which may contain grouped child content. 
+    They may or may not have semantic value, based on the type of tag used.
+  </p>
+
+  <p>
+    The most common block elements are <code>&lt;div&gt;</code> and <code>&lt;p&gt;</code>. While both act as containers, their semantics dictate their usage. 
+  </p>
+  <ul>
+    <li><code>&lt;div&gt;</code> tags are generic layout containers that provide no semantic value. You cannot infer the inner content-grouping's meaning from the tag itsef.</li>
+    <li><code>&lt;p&gt;</code> tags, however, tell the device to expect paragraph content, which in turn may have inline-element semantics. With this tag you can infer semantics from the tag itself.</li>
+  </ul>
+
+  <p>
+    By itself (without additional CSS or JavaScript), multiple block elements will never occupy the same horizontal space. 
+    Thus, block elements always 'stack' on top of each other, separated by line breaks. 
+  </p>
+
+  <p>
+    As a container, block elements take the width of their parent environment, or scope, by default. 
+    In the above example, that parent is the <code>&lt;body&gt;</code> tag, which as a block element itself has the full device width.
+    This pattern continues up the document hierarchy until the terminus is reached; the <code>&lt;html&gt;</code> tag.
+  </p>
+
+  <p>Devices typically add base styling to different tags, once their semantics are determined.</p>
+  <ul>
+    <li><code>&lt;div&gt;</code> tags lack margins, since they act as generic grouping boxes</li>
+    <li><code>&lt;p&gt;</code> tags tend to have a top and margin applied, since the device anticipates their usage with other paragraph and headline tags.</li>
+  </ul>
+
+  <p>
+    In the above example, there are 2 <code>&lt;div&gt;</code> boxes that don't have vertical spacing (margins) by default.
+    If you change the tags to <code>&lt;p&gt;</code>, you will see margins appear.
+  </p>
+
+  <p>With CSS, you can turn any element into a block element with the display property: <code>display: block;</code></p>
+
+  <aside>
+    <p><strong>Note:</strong> Devices tend to add their own styling to specific tags. 
+    Because this can be inconsistent across different browsers, you shouldn't rely on this alone.
+    If the styling is important, it should be applied with CSS.</p>
+
+    <p>With CSS, you can turn any element into a block element with the display property: <code>display: block;</code></p>
+  </aside>
+
+</body>
+</html>
