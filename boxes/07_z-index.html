@@ -20,7 +20,7 @@
 
   <p>
     As we saw in the <a href="06_position.html">Position</a> example, when two or more elements are given position,
-    and compete for the same 2D space, the browser doesn't know which one to give priority to (and thus show above the others). 
+    and compete for the same 2D space, the browser doesn't know which one you intended to give priority to (and thus show above the others). 
     By default, it favors the element found lowest in the document hierarchy tree.
   </p>
 
@@ -108,6 +108,7 @@
     Then, despite Box 1's child element (Box 3) having a higher z-index than Box 2 (3), 
     it doesn't matter because they are not competing in the same scope anymore.
   </p>
+  <p>Giving Box 1 its own z-index of <code>1</code>:</p>
 
   <div class="wrap">
     <div class="box" style="z-index:1; position:absolute; top:0; left:0;">

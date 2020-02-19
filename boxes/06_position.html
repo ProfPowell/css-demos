@@ -54,7 +54,7 @@
 
   <hr>
 
-  <h2>position:static</h2>
+  <h2>position: static</h2>
 
   <p>
     By default, block elements have a position of <strong>static</strong>. This indicates it is in the natural flow of the document content,
@@ -70,7 +70,7 @@
 
   <hr>
 
-  <h2>position:relative</h2>
+  <h2>position: relative</h2>
 
   <p>
     When positioning, you are offsetting the element <strong>relative</strong> to its position within the document flow, not the whole document.
@@ -86,7 +86,7 @@
   <p><strong>Note:</strong> Take a look at <code>Box 2</code>.</p>
   <ol>
     <li>It looks like it gained spacing above it, since it is not adjacent to Box 1, but it did not. 
-    It only was offset horizontally due to its directly-applied value of <code>left:20px;</code>. 
+    It was only offset horizontally due to its directly-applied value of <code>left:20px;</code>. 
     The vertical separation was caused by the <code>top:-15px</code> on Box 1, which was presentationally 
     offset by 15 pixels. If you imagine Box 1 not being offset, you'll see that its original, non-offset, 
     position would be adjacent to the top of Box 2.</li>
@@ -98,7 +98,7 @@
 
   <hr>
 
-  <h2>position:absolute</h2>
+  <h2>position: absolute</h2>
 
   <p>
     Unlike relative positioning, when you position absolutely, you are offsetting the element <strong>absolute</strong> to its <em>nearest relatively-positioned ancestor</em>.
@@ -185,7 +185,7 @@
 
   <hr>
 
-  <h2>position:fixed</h2>
+  <h2>position: fixed</h2>
 
   <p>
     Similar to <code>position:absolute;</code>, fixed-position elements are removed from the document flow, however they are offset from the document, even if it has a relatively-positioned parent element.
@@ -210,12 +210,12 @@
 
   <hr>
 
-  <h2>position:sticky</h2>
+  <h2>position: sticky</h2>
 
   <p>
     There is a sort of in-between state between relative/absolute elements (don't stay on screen when scrolled),
     and fixed elements (do stay on screen when scrolled). With <em>sticky</em> positioning, 
-    the element is treated as relative (in the normal document flow) until the page's scroll position reaches this elements location. 
+    the element is treated as relative (in the normal document flow) until the page's scroll position reaches this element's location. 
     Then as the page scrolls further down, this sticky element behaves like a fixed-positioned element and stays on screen.
   </p>
 
